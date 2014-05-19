@@ -45,6 +45,10 @@ if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
     ln -s $dir/mytheme.zsh-theme ~/.oh-my-zsh/themes/mytheme.zsh-theme
     echo "Creating symlink to custom plugins in oh-my-zsh/custom/plugins/"
     ln -s $dir/plugins ~/.oh-my-zsh/custom/plugins
+    echo "Installing zsh-syntax-highlighting"
+    cd ~/.oh-my-zsh/custom/plugins
+    git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
+    cd $dir
 
 else
    echo "Please install zsh, then re-run this script!"
