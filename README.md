@@ -1,4 +1,4 @@
-dotfiles
+My dotfiles
 ========
 
 My dot files for ZSH, Bash and Vim.  
