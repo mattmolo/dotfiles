@@ -30,15 +30,13 @@ install_zsh () {
 # Test to see if zshell is installed.  If it is:
 if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
     # Clone oh-my-zsh into .oh-my-zsh using wget
-    if [[ ! -d ~/.oh-my-zsh/ ]]; then
+    if [ ! -d ~/.oh-my-zsh/ ]; then
         echo "Installing oh-my-zsh"
         wget --no-check-certificate http://install.ohmyz.sh -O - | sh    
     fi
     # Set the default shell to zsh if it isn't currently set to zsh
-    if [[ ! $(echo $SHELL) == $(which zsh) ]]; then
-        echo "Changing zsh to default shell"
-        chsh -s $(which zsh)
-    fi
+    echo "Changing zsh to default shell"
+    chsh -s $(which zsh)
 
     #symlink oh-my-zsh theme and plugins
     echo "Creating symlink to mytheme.zsh-theme in oh-my-zsh/themes/"
@@ -46,7 +44,7 @@ if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
     echo "Creating symlink to custom plugins in oh-my-zsh/custom/plugins/"
     ln -s $dir/plugins ~/.oh-my-zsh/custom/plugins
     echo "Installing zsh-syntax-highlighting"
-    cd ~/.oh-my-zsh/custom/plugins
+    cd $dir/plugins
     git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
     cd $dir
 
