@@ -1,4 +1,5 @@
 plugins/zsh-syntax-highlighting/
 vim/*
+vim/.netrwhist
 !vim/colors/
 !vim/syntax/
