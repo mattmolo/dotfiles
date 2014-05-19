@@ -55,6 +55,9 @@ alias pb="pbpaste | pbcopy"
 alias omega="mosh --ssh='ssh -p 2222' m -p 4050"
 alias omegal="mosh --ssh='ssh -p 2222' l"
 
+# linux things
+alias apt="sudo aptitude"
+
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
 
