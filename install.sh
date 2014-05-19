@@ -5,7 +5,7 @@
 
 ########## Variables
 dir=~/.dotfiles                   # dotfiles directory
-olddir=~/.dotfiles_old            # old dotfiles backup directory
+olddir=~/dotfiles_old            # old dotfiles backup directory
 files="bashrc vimrc vim zshrc"    # list of files/folders to symlink in homedir
 ohmyzshfiles="mytheme.zsh-theme plugins" #oh-my-zsh files that are located in diff places
 ##########
