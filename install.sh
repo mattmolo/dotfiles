@@ -12,14 +12,15 @@ files="bashrc aliases vimrc vim"          # list of files/folders to symlink in 
 # create dotfiles_old in homedir
 echo -e "\e[36mCreating $olddir for backup of any existing dotfiles in ~\e[0m"
 
-if [ ! -d $olddir/ ]; then
+if [ -d $olddir ]; then
     echo -e "\e[31m$olddir already exists. Delete it?\e[0m \c"
     read -p "" -n 1 -r
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
-        echo -e "\e[31mRemoving $olddir\e[0m"
-        rm -r $olddir
+        echo -e "\n\e[31mRemoving $olddir\e[0m"
+        rm -rf $olddir
     fi    
+    printf "\n"
 fi
 
 mkdir -p $olddir
@@ -38,6 +39,7 @@ echo -e "\e[31mInstall oh-my-zsh? (Make sure to install zsh first)\e[0m \c"
 read -p "" -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]] 
 then
+    printf "\n"
     bash omz_install.sh
 fi
-echo -e "\e[36mFinished!\e0m"
+echo -e "\n\e[36mFinished!\e[0m"
