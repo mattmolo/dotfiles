@@ -13,8 +13,6 @@ alias c="print '\a'; clear;"
 alias e="exit"
 alias cc="cd; clear"
 alias cdd="cd ~/Desktop/"
-alias ls='ls -G'
-alias l='ls -lahFG'
 alias pt="ping 8.8.8.8"
 
 # tmux things
@@ -35,11 +33,19 @@ gita () {
   git add *; git commit -m $1; git push;
 }
 
-# OS X things
-alias chocho="while true; do /usr/local/opt/sl/bin/sl; done"
-alias pb="pbpaste | pbcopy"
-alias omega="mosh --ssh='ssh -p 2222' m -p 4050"
-alias omegal="mosh --ssh='ssh -p 2222' l"
+platform=$(uname)
 
-# linux things
-alias apt="sudo aptitude"
+if [[ $platform == 'Linux' ]]; then
+    # Linux things
+    alias apt="sudo aptitude"
+    alias ls='ls --color=auto'
+    alias l='ls -lahF --color=always'
+elif [[ $platform == 'Darwin' ]]; then
+    # OS X things
+    alias chocho="while true; do /usr/local/opt/sl/bin/sl; done"
+    alias pb="pbpaste | pbcopy"
+    alias omega="mosh --ssh='ssh -p 2222' m -p 4050"
+    alias omegal="mosh --ssh='ssh -p 2222' l"
+    alias ls='ls -G'
+    alias l='ls -lahFG'
+fi
