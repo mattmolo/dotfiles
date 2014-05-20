@@ -13,7 +13,8 @@ alias c="print '\a'; clear;"
 alias e="exit"
 alias cc="cd; clear"
 alias cdd="cd ~/Desktop/"
-alias l='ls -lahF'
+alias ls='ls -G'
+alias l='ls -lahFG'
 alias pt="ping 8.8.8.8"
 
 # tmux things
@@ -23,6 +24,7 @@ alias tls="tmux ls"
 
 # git things
 alias gadd="git add *"
+alias gs="git status"
 alias gpull="git pull"
 alias gpush="git push"
 gcom () {
