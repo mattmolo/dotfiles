@@ -38,5 +38,5 @@ echo -e "\e[31mInstall oh-my-zsh? (Make sure to install zsh first)\e[0m \c"
 read -p "" -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]] 
 then
-    sh omz_install.sh
+    bash omz_install.sh
 fi 
