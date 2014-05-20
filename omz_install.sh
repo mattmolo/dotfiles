@@ -42,9 +42,10 @@ if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
     read -p "" -n 1 -r
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
+        echo -e "\e[36mChanging default shell\e[0m"
         chsh -s $(which zsh)
     fi    
-
+    echo -e "\e[36mFinished configuring ZSH!\e[0m"
     exit
 
 else

@@ -39,4 +39,5 @@ read -p "" -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]] 
 then
     bash omz_install.sh
-fi 
+fi
+echo -e "\e[36mFinished!\e0m"
