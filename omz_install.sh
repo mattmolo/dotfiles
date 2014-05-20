@@ -29,6 +29,7 @@ if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
     ln -s $dir/plugins ~/.oh-my-zsh/custom/
     
     echo -e "\e[36mInstalling zsh-syntax-highlighting\e[0m"
+    rm -rf ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
     git clone git://github.com/zsh-users/zsh-syntax-highlighting.git $dir/plugins/zsh-syntax-highlighting
     
     echo -e "\e[36mSetting up zshrc\e[0m"
