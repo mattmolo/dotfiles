@@ -4,6 +4,23 @@
 ##############################################################################
 
 ##############################################################################
+# General Settings                                                           #
+##############################################################################
+# Set the default editor to vim.
+export EDITOR=vim
+ 
+# Avoid succesive duplicates in the bash command history.
+export HISTCONTROL=ignoredups
+ 
+# Append commands to the bash command history file (~/.bash_history)
+# instead of overwriting it.
+shopt -s histappend
+ 
+# Append commands to the history every time a prompt is shown,
+# instead of after closing the session.
+PROMPT_COMMAND='history -a'
+
+##############################################################################
 # Shell prompt                                                               #
 ##############################################################################
 # simple no color prompt
@@ -12,11 +29,8 @@
 # export PS1="\n\u at \h in\w\n>> "
 # multiline color prompt
 export PS1="\n\e[0;31m\u\e[m at \e[0;33m\h\e[m in \e[m\e[0;36m\w\e[m\n\e[0;34m>>\e[m "
+
 ##############################################################################
 # Aliases                                                                    #
 ##############################################################################
-alias ..="cd .."
-alias e="exit"
-alias c="clear"
-alias ls="ls -Gh"
-alias l="ls -Glah"
+source ~/.aliases
