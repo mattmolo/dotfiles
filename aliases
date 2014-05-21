@@ -14,6 +14,7 @@ alias e="exit"
 alias cc="cd; clear"
 alias cdd="cd ~/Desktop/"
 alias pt="ping 8.8.8.8"
+alias p="popd"
 
 # tmux things
 alias tnew="tmux new"
