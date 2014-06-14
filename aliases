@@ -44,6 +44,7 @@ if [[ $platform == 'Linux' ]]; then
     alias apt="sudo aptitude"
     alias ls='ls --color=auto'
     alias l='ls -lahF --color=always'
+    alias mc='tatt -t Minecraft'
 elif [[ $platform == 'Darwin' ]]; then
     # OS X things
     alias chocho="while true; do /usr/local/opt/sl/bin/sl; done"
