@@ -12,12 +12,13 @@ alias ....="cd ../../.."
 # tiny aliases for misc things
 alias c="print '\a'; clear;"
 alias e="exit"
-alias cc="cd; clear"
+alias cc="peerflix -d -r -f"
 alias cdd="cd ~/Desktop/"
 alias pt="ping 8.8.8.8"
 alias p="popd"
 alias woo="fortune"
-
+alias j="autojump"
+alias rt="tmux new -s rtorrent rtorrent"
 
 # tmux things
 alias tnew="tmux new"

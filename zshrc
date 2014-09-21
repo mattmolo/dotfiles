@@ -1,5 +1,5 @@
 # User Path Variable 
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin"
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin:/usr/local/go/bin:/Users/Matt/ROV/X6/stm-code/bin"
 
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh

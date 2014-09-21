@@ -24,6 +24,9 @@ shopt -s histappend
 # instead of after closing the session.
 PROMPT_COMMAND='history -a'
 
+#PATH
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin:/Users/Matt/ROV/X6/stm-code/bin"
+
 ##############################################################################
 # Shell prompt                                                               #
 ##############################################################################
