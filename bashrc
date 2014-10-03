@@ -13,7 +13,7 @@ export EDITOR=vim
 export HISTCONTROL=ignoredups
  
 # unlimitedish history
-export HISTFILE=-1
+export HISTFILE=.bash_history
 export HISTSIZE=-1
  
 # Append commands to the bash command history file (~/.bash_history)
