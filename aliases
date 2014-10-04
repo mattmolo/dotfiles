@@ -12,13 +12,18 @@ alias ....="cd ../../.."
 # tiny aliases for misc things
 alias c="print '\a'; clear;"
 alias e="exit"
+alias v="vim"
 alias cc="peerflix -d -r -f"
 alias cdd="cd ~/Desktop/"
 alias pt="ping 8.8.8.8"
 alias p="popd"
 alias woo="fortune"
-alias j="autojump"
 alias rt="tmux new -s rtorrent rtorrent"
+
+# cd and see what's there
+function d {
+  cd $1; ls;
+}
 
 # Highlight with 'moria' theme to terminal, and suppress errors
 function hl { # Overrides the cat command to use syntax highlighting
@@ -44,7 +49,7 @@ gcom () {
 }
 
 gita () {
-  git add *; git commit -m $1; git push;
+  git add *; git commit -m $1; sleep 1; git push;
 }
 
 platform=$(uname)
