@@ -27,7 +27,7 @@ function s {
 
 # Highlight with 'moria' theme to terminal, and suppress errors
 function hl { # Overrides the cat command to use syntax highlighting
-  highlight $1 -s moria -O xterm256 2> /dev/null
+  highlight $1 $2 $3 -s moria -O xterm256 2> /dev/null
 
   if (($? != 0)); then # If the command had errors
     cat $1 # Just cat the file out instead
