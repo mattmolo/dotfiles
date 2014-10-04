@@ -15,6 +15,9 @@ ZSH_THEME="mytheme"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git git-extras brew compleat npm extract zsh-syntax-highlighting)
 
+#load Z: https://github.com/rupa/z
+. ~/.dotfiles/z.sh
+
 # Load aliases file
 source ~/.aliases
 
