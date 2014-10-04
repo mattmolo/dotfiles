@@ -21,7 +21,7 @@ alias woo="fortune"
 alias rt="tmux new -s rtorrent rtorrent"
 
 # cd and see what's there
-function d {
+function s {
   cd $1; ls;
 }
 
