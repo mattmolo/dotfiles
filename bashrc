@@ -14,11 +14,11 @@ export HISTCONTROL=ignoredups
  
 # unlimitedish history
 export HISTFILE=~/.bash_history
-export HISTSIZE=-1
+export HISTSIZE=100000000
  
 # Append commands to the bash command history file (~/.bash_history)
 # instead of overwriting it.
-shopt -s histappend
+#shopt -s histappend
  
 # Append commands to the history every time a prompt is shown,
 # instead of after closing the session.
