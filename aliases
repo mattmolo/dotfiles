@@ -68,4 +68,5 @@ elif [[ $platform == 'Darwin' ]]; then
     alias omegal="mosh --ssh='ssh -p 2222' l"
     alias ls='ls -G'
     alias l='ls -lahFG'
+    alias o="open"
 fi
