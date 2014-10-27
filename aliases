@@ -62,7 +62,7 @@ if [[ $platform == 'Linux' ]]; then
     alias mc='tatt -t Minecraft'
 elif [[ $platform == 'Darwin' ]]; then
     # OS X things
-    alias chocho="while true; do /usr/local/opt/sl/bin/sl; done"
+    alias choochoo="while true; do /usr/local/opt/sl/bin/sl; done"
     alias pb="pbpaste | pbcopy"
     alias omega="mosh --ssh='ssh -p 2222' m -p 4050"
     alias omegal="mosh --ssh='ssh -p 2222' l"
