@@ -14,6 +14,7 @@ alias c="print '\a'; clear;"
 alias e="exit"
 alias v="vim"
 alias cc="peerflix -d -r -f"
+alias pf="peerflix -v -r -f"
 alias cdd="cd ~/Desktop/"
 alias pt="ping 8.8.8.8"
 alias p="popd"
@@ -40,12 +41,12 @@ alias tatt="tmux attach"
 alias tls="tmux ls"
 
 # git things
-alias gadd="git add *"
+alias gadd="git add"
 alias gs="git status"
 alias gpull="git pull"
 alias gpush="git push"
 gcom () {
-    git commit -m $1
+    git commit -am $1
 }
 
 gita () {
