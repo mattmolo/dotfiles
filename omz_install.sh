@@ -28,7 +28,7 @@ if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
     rm -rf ~/.oh-my-zsh/custom/plugins
     ln -s $dir/plugins ~/.oh-my-zsh/custom/
     cd ~/.oh-my-zsh/
-    git update-index --assume-unchanged plugins/example/example.plugin.zsh;
+    git update-index --assume-unchanged custom/plugins/example/example.plugin.zsh
     cd $dir
     
     echo -e "\e[36mInstalling zsh-syntax-highlighting\e[0m"
