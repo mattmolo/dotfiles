@@ -40,6 +40,9 @@ alias gadd="git add"
 alias gs="git status"
 alias gpull="git pull"
 alias gpush="git push"
+alias gnotrack="git update-index --assume-unchanged"
+alias gtrack="git update-index --no-assume-unchanged"
+
 gcom () {
     git commit -am $1
 }
