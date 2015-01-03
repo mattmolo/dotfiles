@@ -13,26 +13,21 @@ alias ....="cd ../../.."
 alias c="print '\a'; clear;"
 alias e="exit"
 alias v="vim"
-alias cc="peerflix -d -r -f"
-alias pf="peerflix -v -r -f"
+alias cc="cd /tmp/; peerflix -d -r -f"
+alias pf="cd /tmp/; peerflix -v -r -f"
 alias cdd="cd ~/Desktop/"
 alias pt="ping 8.8.8.8"
 alias p="popd"
 alias woo="fortune"
 alias rt="tmux new -s rtorrent rtorrent"
 
-# cd and see what's there
-function s {
-  cd $1; ls;
-}
-
 # Highlight with 'moria' theme to terminal, and suppress errors
-function hl { # Overrides the cat command to use syntax highlighting
-  highlight $1 $2 $3 -s moria -O xterm256 2> /dev/null
+function hl { 
+    highlight $1 $2 $3 -s moria -O xterm256 2> /dev/null
 
-  if (($? != 0)); then # If the command had errors
-    cat $1 # Just cat the file out instead
-  fi
+    if (($? != 0)); then # If the command had errors
+        cat $1 # Just cat the file out instead
+    fi
 }
 
 # tmux things
@@ -52,6 +47,9 @@ gcom () {
 gita () {
   git add *; git commit -m $1; sleep 1; git push;
 }
+
+#alias to compress modpack
+alias mp='zip -r molonium-pack2.zip . -x ".*" -x "*/.*"'
 
 platform=$(uname)
 
