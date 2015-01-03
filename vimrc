@@ -64,7 +64,8 @@ noremap <C-K> <C-W><C-K>
 noremap <C-L> <C-W><C-L>
 noremap <C-H> <C-W><C-H>
 map <Esc>w :w<CR>
-imap <Tab> <C-P>
+"remap tab to autocomplete (removes reg tab functionality tho...)
+"imap <Tab> <C-P>
 imap ii <Esc>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 05. Text Formatting/Layout                                                 "
