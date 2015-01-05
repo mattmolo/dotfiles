@@ -5,3 +5,4 @@ vim/.netrwhist
 !vim/autoload/
 !vim/colors/
 !vim/syntax/
+!vim/ftplugins/
