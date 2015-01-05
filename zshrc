@@ -1,6 +1,14 @@
 # User Path Variable 
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin:/usr/local/go/bin:/Users/Matt/Projects/ROV/gcc/bin"
+export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin:/usr/local/go/bin"
 
+platform=$(uname)
+
+if [[ $platform == 'Linux' ]]; then
+    # Linux things
+elif [[ $platform == 'Darwin' ]]; then
+    # OS X things
+    export PATH="$PATH:/Users/Matt/Projects/ROV/gcc/bin:/Users/Matt/Scripts"
+fi
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
