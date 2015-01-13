@@ -5,6 +5,7 @@ platform=$(uname)
 
 if [[ $platform == 'Linux' ]]; then
     # Linux things
+    export PATH="$PATH:~/Scripts"
 elif [[ $platform == 'Darwin' ]]; then
     # OS X things
     export PATH="$PATH:/Users/Matt/Projects/ROV/gcc/bin:/Users/Matt/Scripts"
