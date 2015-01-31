@@ -51,9 +51,6 @@ gita () {
   git add *; git commit -m $1; sleep 1; git push;
 }
 
-#alias to compress modpack
-alias mp='zip -r molonium-pack2.zip . -x ".*" -x "*/.*"'
-
 platform=$(uname)
 
 if [[ $platform == 'Linux' ]]; then
@@ -62,6 +59,7 @@ if [[ $platform == 'Linux' ]]; then
     alias ls='ls --color=auto'
     alias l='ls -lahF --color=always'
     alias mc='tatt -t Minecraft'
+    alias ml="module load"
 elif [[ $platform == 'Darwin' ]]; then
     # OS X things
     alias choochoo="while true; do /usr/local/opt/sl/bin/sl; done"
