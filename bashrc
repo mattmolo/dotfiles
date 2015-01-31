@@ -25,7 +25,7 @@ export HISTSIZE=100000000
 PROMPT_COMMAND='history -a'
 
 #PATH
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin:/Users/Matt/ROV/X6/stm-code/bin"
+export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin:/Users/Matt/ROV/X6/stm-code/bin"
 
 ##############################################################################
 # Shell prompt                                                               #
