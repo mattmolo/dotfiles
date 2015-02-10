@@ -20,6 +20,7 @@ alias pt="ping 8.8.8.8"
 alias p="popd"
 alias woo="fortune"
 alias rt="tmux new -s rtorrent rtorrent"
+alias bc="sudo brew cask"
 
 # Highlight with 'moria' theme to terminal, and suppress errors
 function hl { 

@@ -1,5 +1,6 @@
 # User Path Variable 
 export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin:/usr/local/go/bin"
+export HOMEBREW_CASK_OPTS="--appdir=/Application"
 
 platform=$(uname)
 

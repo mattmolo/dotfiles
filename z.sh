@@ -23,9 +23,9 @@
 #     * z -l foo  # list matches instead of cd
 #     * z -c foo  # restrict matches to subdirs of $PWD
 
-[ -d "${_Z_DATA:-$HOME/.z}" ] && {
-    #echo "ERROR: z.sh's datafile (${_Z_DATA:-$HOME/.z}) is a directory."
-}
+#[ -d "${_Z_DATA:-$HOME/.z}" ] && {
+#    #echo "ERROR: z.sh's datafile (${_Z_DATA:-$HOME/.z}) is a directory."
+#}
 
 _z() {
 
