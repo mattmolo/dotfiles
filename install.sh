@@ -21,7 +21,7 @@ if [ -d $olddir ]; then
     read -p "" -n 1 -r
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
-        echo -e "\n $CYAN Removing $olddir $NORMAL"
+        echo -e "\n$CYAN Removing $olddir $NORMAL"
         rm -rf $olddir
     fi    
     printf "\n"
@@ -32,11 +32,19 @@ mkdir -p $olddir
 # move any existing dotfiles in homedir to old dotfiles directory, then create symlinks from the homedir to any files in the dotfiles directory specified in $files
 cd $dir
 echo -e "$CYAN Moving any existing dotfiles from ~ to $olddir $NORMAL"
+
 for file in $files; do
     mv ~/.$file $olddir 2>/dev/null
     echo -e "$CYAN Creating symlink to $file in home directory $NORMAL"
     ln -s $dir/$file ~/.$file
 done
+
+#also move vim folder just in case, no need to link 
+mv ~/.vim $olddir 2>/dev/null
+
+#install vim files
+echo -e "$CYAN Installing vim plugins (takes a few seconds) $NORMAL"
+vim +VundleInstall +qall 2&> /dev/null
 
 # ask to install oh-my-zsh
 echo -e "$RED Install oh-my-zsh? (Make sure to install zsh first) $NORMAL \c"

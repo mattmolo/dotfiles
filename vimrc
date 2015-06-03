@@ -40,7 +40,7 @@ Plugin 'bling/vim-airline'
 
 " Automatically install bundles on first run
 if !isdirectory(expand("~/.vim/bundle/vim-airline"))
-    execute 'silent BundleInstall'
+    execute 'silent VundleInstall'
     execute 'silent q'
 endif
 
