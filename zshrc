@@ -1,16 +1,3 @@
-# User Path Variable 
-export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin:/usr/local/go/bin"
-export HOMEBREW_CASK_OPTS="--appdir=/Application"
-
-platform=$(uname)
-
-if [[ $platform == 'Linux' ]]; then
-    # Linux things
-    export PATH="$PATH:/home/matt/Scripts"
-elif [[ $platform == 'Darwin' ]]; then
-    # OS X things
-    export PATH="$PATH:/Users/Matt/Projects/ROV/gcc/bin:/Users/Matt/Scripts"
-fi
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
@@ -24,21 +11,6 @@ ZSH_THEME="mytheme"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git git-extras brew compleat npm extract zsh-syntax-highlighting)
-
-#load Z: https://github.com/rupa/z
-. ~/.dotfiles/z.sh
-
-# Load aliases file
-source ~/.aliases
-
-# Set to this to use case-sensitive completion
-# CASE_SENSITIVE="true"
-
-# Uncomment this to disable bi-weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment to change how often before auto-updates occur? (in days)
-# export UPDATE_ZSH_DAYS=14
 
 # Uncomment following line if you want to disable autosetting terminal title.
 # DISABLE_AUTO_TITLE="true"
@@ -63,5 +35,20 @@ HIST_STAMPS="mm.dd.yyyy"
 if [ -f /usr/bin/vim ]; then
     export EDITOR=/usr/bin/vim
 fi
+
+# ctrl-z also resumes background process
+fancy-ctrl-z () {
+    if [[ $#BUFFER -eq 0 ]]; then
+          BUFFER="fg"
+              zle accept-line
+                else
+                      zleush-input
+    zle clear-screen
+  fi
+}
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
+
+source ~/.common_shell
 
 source $ZSH/oh-my-zsh.sh

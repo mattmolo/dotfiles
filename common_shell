@@ -1,4 +1,36 @@
-# Aliases
+################################################
+# Common shell configurations for zsh and bash #
+################################################
+
+# Save 
+platform=$(uname)    
+
+
+# load Z: https://github.com/rupa/z
+. ~/.dotfiles/z.sh
+
+################################################
+# Path configurations                          #
+################################################
+
+if [[ $platform == 'Linux' ]]; then
+    export PATH="$PATH:/home/matt/Scripts"
+    export GOPATH="/home/matt/.go"
+
+elif [[ $platform == 'Darwin' ]]; then
+    export PATH="$PATH:/Users/Matt/Projects/ROV/gcc/bin:/Users/Matt/Scripts"
+    export GOPATH="/Users/Matt/.go"
+
+    export HOMEBREW_CASK_OPTS="--appdir=/Application"
+fi
+
+export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin:$GOPATH/bin"
+
+
+################################################
+# Aliases                                      #
+################################################
+
 # Easy edits to bash/zsh files
 alias bashrc="vim ~/.bashrc; source ~/.bashrc"
 alias zshrc="vim ~/.zshrc; source ~/.zshrc"
@@ -8,19 +40,14 @@ alias ohmyzsh="vim ~/.oh-my-zsh"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
+alias .....="cd ../../../.."
 
 # tiny aliases for misc things
 alias c="print '\a'; clear;"
 alias e="exit"
 alias v="vim"
-alias cc="cd /tmp/; peerflix -d -r -f"
-alias pf="peerflix -v"
 alias cdd="cd ~/Desktop/"
 alias pt="ping 8.8.8.8"
-alias p="popd"
-alias woo="fortune"
-alias rt="tmux new -s rtorrent rtorrent"
-alias bc="sudo brew cask"
 
 # Highlight with 'moria' theme to terminal, and suppress errors
 function hl { 
@@ -52,7 +79,6 @@ gita () {
   git add *; git commit -m $1; sleep 1; git push;
 }
 
-platform=$(uname)
 
 if [[ $platform == 'Linux' ]]; then
     # Linux things
@@ -61,12 +87,11 @@ if [[ $platform == 'Linux' ]]; then
     alias l='ls -lahF --color=always'
     alias mc='tatt -t Minecraft'
     alias ml="module load"
+    alias m="module"
 elif [[ $platform == 'Darwin' ]]; then
     # OS X things
     alias choochoo="while true; do /usr/local/opt/sl/bin/sl; done"
     alias pb="pbpaste | pbcopy"
-    alias omega="mosh --ssh='ssh -p 2222' m -p 4050"
-    alias omegal="mosh --ssh='ssh -p 2222' l"
     alias m="ssh m"
     alias ls='ls -G'
     alias l='ls -lahFG'

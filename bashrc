@@ -24,9 +24,6 @@ export HISTSIZE=100000000
 # instead of after closing the session.
 PROMPT_COMMAND='history -a'
 
-#PATH
-export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin:/Users/Matt/ROV/X6/stm-code/bin"
-
 ##############################################################################
 # Shell prompt                                                               #
 ##############################################################################
@@ -40,9 +37,6 @@ export PS1="\n\e[0;31m\u\e[m at \e[0;33m\h\e[m in \e[m\e[0;36m\w\e[m\n\e[0;32m>>
 ##############################################################################
 # Aliases                                                                    #
 ##############################################################################
-
-#load Z: https://github.com/rupa/z
-. ~/.dotfiles/z.sh
 
 # extract a file
 function extract {
@@ -78,4 +72,4 @@ function extract {
 }
 alias x="extract"
 
-source ~/.aliases
+source ~/.common_shell
