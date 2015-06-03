@@ -44,7 +44,8 @@ mv ~/.vim $olddir 2>/dev/null
 
 #install vim files
 echo -e "$CYAN Installing vim plugins (takes a few seconds) $NORMAL"
-vim +VundleInstall +qall 2&> /dev/null
+vim +VundleInstall +qall
+clear
 echo -e "$CYAN Don't forget to install exuberant-ctags! $NORMAL"
 
 # ask to install oh-my-zsh
