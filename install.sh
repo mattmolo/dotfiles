@@ -54,4 +54,14 @@ then
     printf "\n"
     bash omz_install.sh
 fi
+
+# install plugins for go
+echo -e "$RED Install go plugins? (Make sure to have a go install) $NORMAL \c"
+read -p "" -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]] 
+then
+    printf "\n"
+    bash go_install.sh
+fi
+
 echo -e "\n$CYAN Finished! $NORMAL"
