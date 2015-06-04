@@ -44,7 +44,9 @@ mv ~/.vim $olddir 2>/dev/null
 
 #install vim files
 echo -e "$CYAN Installing vim plugins (takes a few seconds) $NORMAL"
-vim +VundleInstall +qall 2&> /dev/null
+vim +VundleInstall +qall
+clear
+echo -e "$CYAN Don't forget to install exuberant-ctags! $NORMAL"
 
 # ask to install oh-my-zsh
 echo -e "$RED Install oh-my-zsh? (Make sure to install zsh first) $NORMAL \c"
@@ -53,6 +55,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]
 then
     printf "\n"
     bash omz_install.sh
+else 
+    printf "\n"
 fi
 
 # install plugins for go
@@ -62,6 +66,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]
 then
     printf "\n"
     bash go_install.sh
+else 
+    printf "\n"
 fi
 
 echo -e "\n$CYAN Finished! $NORMAL"

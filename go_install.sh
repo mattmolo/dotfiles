@@ -13,6 +13,3 @@ vim +GoInstallBinaries +qall 2&> /dev/null
 
 echo -e "$PROMPT Installing gotags (tagbar) $NORMAL"
 go get -u github.com/jstemmer/gotags
-echo -e "$PROMPT Don't forget to install exuberant-ctags $NORMAL"
-
-echo -e "\n$PROMPT Finished! $NORMAL"

@@ -10,7 +10,7 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vuldle                                                                     "
+" Vundle                                                                     "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Automatically setup Vundle on first run
@@ -28,7 +28,7 @@ Plugin 'gmarik/vundle'
 
 Plugin      'fatih/vim-go'
 Plugin      'tpope/vim-fugitive'
-Plugin     'Shougo/neocomplete.vim'
+Plugin      'bling/vim-airline'
 Plugin   'nanotech/jellybeans.vim'
 Plugin   'junegunn/vim-easy-align'
 Plugin   'airblade/vim-gitgutter'
@@ -36,12 +36,8 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'majutsushi/tagbar'
 
-Plugin 'bling/vim-airline'
-
-" Automatically install bundles on first run
-if !isdirectory(expand("~/.vim/bundle/vim-airline"))
-    execute 'silent VundleInstall'
-    execute 'silent q'
+if has("Lua")
+  Plugin     'Shougo/neocomplete.vim'
 endif
 
 filetype plugin indent on
@@ -220,6 +216,8 @@ if isdirectory(expand("~/.vim/bundle/tagbar"))
 endif
 
 if isdirectory(expand("~/.vim/bundle/neocomplete.vim"))
-  let g:neocomplete#enable_at_startup = 1
-  let g:neocomplete#enable_smart_case = 1
+  if has("Lua") 
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_smart_case = 1
+  endif 
 endif
