@@ -17,10 +17,10 @@ CYAN=$(tput setaf 6)
 # Test to see if zsh is installed.  If it is:
 if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
     
-    # Clone oh-my-zsh into .oh-my-zsh
-    if [ ! -d ~/.oh-my-zsh/ ]; then
+    # Clone zprezto
+    if [ ! -d ~/.zprezto/ ]; then
         echo -e "$CYAN Installing prezto $NORMAL"
-        git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+        git clone --recursive https://github.com/sorin-ionescu/prezto.git ~/.zprezto
     fi
 
     # move any existing dotfiles in homedir to old dotfiles directory, then create symlinks from the homedir to any files in the dotfiles directory specified in $files
@@ -29,8 +29,10 @@ if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
     for file in $zshfiles; do
         mv ~/.$file $olddir 2>/dev/null
         echo -e "$CYAN Creating symlink to $file in home directory $NORMAL"
-        ln -s $dir/$file ~/.$file
+        ln -s $dir/$file ~/.$file 2>/dev/null
     done
+
+    cp zprompt ~/.zprezto/modules/prompt/functions/prompt_molo_setup 2>/dev/null
     
     # Set the default shell to zsh if it isn't currently set to zsh
     echo -e "$RED Change default shell to zsh? $NORMAL \c"
