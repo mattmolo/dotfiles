@@ -27,7 +27,6 @@ function prompt_molo_setup {
     'rprompt' '%C%D'
 
   # Define prompts.
-#  PROMPT='%~ der${(e)git_info[prompt]}$ '
 PROMPT='
 %F{red}%n %F{white}at %F{yellow}$(box_name) %F{white}in %F{cyan}%~%F{white}${(e)git_info[prompt]} 
 %F{blue}>> %F{white}'
