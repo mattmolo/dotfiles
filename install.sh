@@ -54,7 +54,7 @@ read -p "" -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]] 
 then
     printf "\n"
-    bash omz_install.sh
+    bash prezto_install.sh
 else 
     printf "\n"
 fi
