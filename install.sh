@@ -6,7 +6,7 @@
 ########## Variables
 dir=~/.dotfiles                   # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
-files="bashrc common_shell vimrc" # list of files/folders to symlink in homedir
+files="bashrc profile vimrc" # list of files/folders to symlink in homedir
 
 NORMAL=$(tput sgr0)  
 RED=$(tput setaf 1)  

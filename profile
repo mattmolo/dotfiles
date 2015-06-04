@@ -9,6 +9,18 @@ platform=$(uname)
 # load Z: https://github.com/rupa/z
 . ~/.dotfiles/z.sh
 
+export EDITOR='vim'
+export VISUAL='vim'
+export PAGER='less'
+
+if [[ $platform == 'Darwin' ]]; then
+  export BROWSER='open'
+fi
+
+if [[ -z "$LANG" ]]; then
+  export LANG='en_US.UTF-8'
+fi
+
 ################################################
 # Path configurations                          #
 ################################################
