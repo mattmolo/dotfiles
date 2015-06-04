@@ -95,6 +95,8 @@ nmap <C-H> <C-W><C-H>
 nmap <Leader>w :w<CR>
 nmap <Leader>q :q<CR>
 nmap <Leader>s :wq<CR>
+nmap <Leader>x :wq<CR>
+nmap <Leader>l <C-w><C-w>
 
 nmap <Leader>j <C-d>
 nmap <Leader>k <C-u>

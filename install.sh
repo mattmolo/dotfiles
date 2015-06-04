@@ -49,7 +49,7 @@ clear
 echo -e "$CYAN Don't forget to install exuberant-ctags! $NORMAL"
 
 # ask to install oh-my-zsh
-echo -e "$RED Install oh-my-zsh? (Make sure to install zsh first) $NORMAL \c"
+echo -e "$RED Install zsh-prezto? (Make sure to install zsh first) $NORMAL \c"
 read -p "" -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]] 
 then
