@@ -24,14 +24,16 @@ filetype off
 set rtp+=~/.vim/bundle/vundle
 
 call vundle#rc()
+
 Plugin 'gmarik/vundle'
 
-Plugin      'fatih/vim-go'
-Plugin      'tpope/vim-fugitive'
-Plugin      'bling/vim-airline'
-Plugin   'nanotech/jellybeans.vim'
-Plugin   'junegunn/vim-easy-align'
-Plugin   'airblade/vim-gitgutter'
+Plugin 'fatih/vim-go'
+Plugin 'tpope/vim-fugitive'
+Plugin 'bling/vim-airline'
+Plugin 'nanotech/jellybeans.vim'
+Plugin 'mattn/emmet-vim'
+Plugin 'junegunn/vim-easy-align'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'majutsushi/tagbar'
@@ -94,7 +96,7 @@ nmap <C-H> <C-W><C-H>
 " remaps
 nmap <Leader>w :w<CR>
 nmap <Leader>q :q<CR>
-nmap <Leader>s :wq<CR>
+nmap <Leader>1 :q!<CR>
 nmap <Leader>x :wq<CR>
 nmap <Leader>l <C-w><C-w>
 
@@ -222,4 +224,8 @@ if isdirectory(expand("~/.vim/bundle/neocomplete.vim"))
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
   endif 
+endif
+
+if isdirectory(expand("~/.vim/bundle/emmet-vim"))
+    let g:user_emmet_leader_key='<C-d>'
 endif
