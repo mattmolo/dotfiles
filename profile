@@ -62,6 +62,10 @@ alias v="vim"
 alias cdd="cd ~/Desktop/"
 alias pt="ping 8.8.8.8"
 
+function serve {
+  python -m SimpleHTTPServer $1
+}
+
 # Highlight with 'moria' theme to terminal, and suppress errors
 function hl { 
     highlight $1 $2 $3 -s moria -O xterm256 2> /dev/null
