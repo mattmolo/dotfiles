@@ -67,7 +67,7 @@ gita () {
 
 if [[ $platform == 'Linux' ]]; then
     # Linux things
-    alias apt="sudo aptitude"
+    alias apt="sudo apt-get"
     alias ls='ls --color=auto'
     alias l='ls -lahF --color=always'
     alias ml="module load"
