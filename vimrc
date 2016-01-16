@@ -179,7 +179,6 @@ if isdirectory(expand("~/.vim/bundle/nerdtree"))
 endif
 
 if isdirectory(expand("~/.vim/bundle/vim-airline"))
-  let g:airline_theme='PaperColor'
   let g:airline_left_sep=''
   let g:airline_right_sep=''
   let g:airline#extensions#whitespace#enabled = 0
