@@ -11,9 +11,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-
-# Customize to your needs...
-
+export TERM=xterm-256color
 export HISTSIZE=100000000
 
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
@@ -38,4 +36,7 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-source ~/.profile
+# load Z: https://github.com/rupa/z
+. ~/.dotfiles/z.sh
+
+source ~/.aliases

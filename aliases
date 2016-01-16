@@ -1,48 +1,9 @@
 ################################################
-# Common shell configurations for zsh and bash #
-################################################
-
-# Save 
-platform=$(uname)    
-
-
-# load Z: https://github.com/rupa/z
-. ~/.dotfiles/z.sh
-
-export EDITOR='vim'
-export VISUAL='vim'
-export PAGER='less'
-
-if [[ $platform == 'Darwin' ]]; then
-  export BROWSER='open'
-fi
-
-if [[ -z "$LANG" ]]; then
-  export LANG='en_US.UTF-8'
-fi
-
-################################################
-# Path configurations                          #
-################################################
-
-if [[ $platform == 'Linux' ]]; then
-    export PATH="$PATH:/home/matt/Scripts"
-    export GOPATH="/home/matt/.go"
-
-elif [[ $platform == 'Darwin' ]]; then
-    export PATH="$PATH:/Users/Matt/Projects/ROV/gcc/bin:/Users/Matt/Scripts"
-    export GOPATH="/Users/Matt/.go"
-
-    export HOMEBREW_CASK_OPTS="--appdir=/Application"
-fi
-
-export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin:$GOPATH/bin"
-export PATH="$PATH:."
-
-
-################################################
 # Aliases                                      #
 ################################################
+
+# Remember platform
+platform=$(uname)    
 
 # Easy edits to bash/zsh files
 alias bashrc="vim ~/.bashrc; source ~/.bashrc"
@@ -62,15 +23,6 @@ alias v="vim"
 alias cdd="cd ~/Desktop/"
 alias pt="ping 8.8.8.8"
 
-# Highlight with 'moria' theme to terminal, and suppress errors
-function hl { 
-    highlight $1 $2 $3 -s moria -O xterm256 2> /dev/null
-
-    if (($? != 0)); then # If the command had errors
-        cat $1 # Just cat the file out instead
-    fi
-}
-
 # tmux things
 alias tnew="tmux new"
 alias tatt="tmux attach"
@@ -83,6 +35,7 @@ alias gpull="git pull"
 alias gpush="git push"
 alias gnotrack="git update-index --assume-unchanged"
 alias gtrack="git update-index --no-assume-unchanged"
+alias grekt="git reset --hard HEAD"
 
 gcom () {
     git commit -am $1
@@ -92,25 +45,21 @@ gita () {
   git add *; git commit -m $1; sleep 1; git push;
 }
 
-
 if [[ $platform == 'Linux' ]]; then
     # Linux things
     alias apt="sudo aptitude"
     alias ls='ls --color=auto'
     alias l='ls -lahF --color=always'
-    alias mc='tatt -t Minecraft'
     alias ml="module load"
     alias m="module"
 elif [[ $platform == 'Darwin' ]]; then
     # OS X things
     alias choochoo="while true; do /usr/local/opt/sl/bin/sl; done"
     alias pb="pbpaste | pbcopy"
-    alias m="ssh m"
     alias ls='ls -G'
     alias l='ls -lahFG'
     alias o="open"
 fi
-
 
 # extract a file
 function extract {

@@ -6,7 +6,7 @@
 ########## Variables
 dir=~/.dotfiles                   # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
-files="bashrc profile vimrc" # list of files/folders to symlink in homedir
+files="bashrc aliases vimrc tmux.conf" # list of files/folders to symlink in homedir
 
 NORMAL=$(tput sgr0)  
 RED=$(tput setaf 1)  
@@ -46,7 +46,6 @@ mv ~/.vim $olddir 2>/dev/null
 echo -e "$CYAN Installing vim plugins (takes a few seconds) $NORMAL"
 vim +VundleInstall +qall
 clear
-echo -e "$CYAN Don't forget to install exuberant-ctags! $NORMAL"
 
 # ask to install oh-my-zsh
 echo -e "$RED Install zsh-prezto? (Make sure to install zsh first) $NORMAL \c"
@@ -55,17 +54,6 @@ if [[ $REPLY =~ ^[Yy]$ ]]
 then
     printf "\n"
     bash prezto_install.sh
-else 
-    printf "\n"
-fi
-
-# install plugins for go
-echo -e "$RED Install go plugins? (Make sure to have a go install) $NORMAL \c"
-read -p "" -n 1 -r
-if [[ $REPLY =~ ^[Yy]$ ]] 
-then
-    printf "\n"
-    bash go_install.sh
 else 
     printf "\n"
 fi

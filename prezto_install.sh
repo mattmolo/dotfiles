@@ -7,7 +7,7 @@
 ########## Variables
 dir=~/.dotfiles                   # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
-zshfiles="zshrc zlogin zprofile zpreztorc zshenv" #oh-my-zsh files that are located in diff places
+zshfiles="zshrc zlogin zpreztorc zshenv" #oh-my-zsh files that are located in diff places
 
 NORMAL=$(tput sgr0)  
 RED=$(tput setaf 1)  

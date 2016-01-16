@@ -27,16 +27,15 @@ call vundle#rc()
 
 Plugin 'gmarik/vundle'
 
-Plugin 'fatih/vim-go'
+Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'mattn/emmet-vim'
-Plugin 'junegunn/vim-easy-align'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'scrooloose/nerdtree'
+Plugin 'junegunn/vim-easy-align'
 Plugin 'scrooloose/syntastic'
-Plugin 'majutsushi/tagbar'
+Plugin 'NLKNguyen/papercolor-theme'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'mattn/emmet-vim'
 
 if has("Lua")
   Plugin     'Shougo/neocomplete.vim'
@@ -61,8 +60,9 @@ let mapleader = "\<Space>"
 set t_Co=256              " enable 256-color mode.
 syntax enable             " enable syntax highlighting (previously syntax on).
 
-if isdirectory(expand("~/.vim/bundle/jellybeans.vim"))
-  colorscheme jellybeans
+if isdirectory(expand("~/.vim/bundle/papercolor-theme/colors"))
+  set background=dark
+  colorscheme PaperColor
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -87,24 +87,42 @@ set splitright            " Split (vsp) to the right
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 
-" Map C - Nav Keys to move between splits
+
+" remaps 
+"
+" map C-nav keys to move between splits
 nmap <C-J> <C-W><C-J>
 nmap <C-K> <C-W><C-K>
 nmap <C-L> <C-W><C-L>
 nmap <C-H> <C-W><C-H>
 
-" remaps
+" faster than reaching for escape
+imap <C-j> <ESC>
+
+" :w, q, q!, x remaps 
 nmap <Leader>w :w<CR>
 nmap <Leader>q :q<CR>
 nmap <Leader>1 :q!<CR>
 nmap <Leader>x :wq<CR>
-nmap <Leader>l <C-w><C-w>
 
+nmap <Esc>w :w<CR>
+nmap <Esc>q :q<CR>
+nmap <Esc>1 :q!<CR>
+nmap <Esc>x :wq<CR>
+
+" faster pane switching
+nmap <C-w> <C-w><C-w>
+
+" faster movement through file 
 nmap <Leader>j <C-d>
 nmap <Leader>k <C-u>
+" type q: map
+map q: :q
 
-nmap H 0
-nmap L $
+" move to end of line with H and L
+" Takes over H (move to top of screen) and L (move to bottom of screen)
+" nmap H 0
+" nmap L $
 
 " Remove trailing whitespaces
 nmap <silent> <Leader><BS> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>:w<CR>
@@ -112,25 +130,23 @@ nmap <silent> <Leader><BS> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<
 " <TAB>: completion.
 imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
-imap <C-j> <ESC>
 
-map q: :q
  
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text Formatting/Layout                                                     "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nowrap                  " do not wrap text
-set scrolloff=3             " keep minimal number of lines above/below cursor
+set scrolloff=5             " keep minimal number of lines above/below cursor
 set showcmd                 " show command line at bottom of screen
 set sidescroll=3            " scroll sideways 3 characters at a time
 
 set backspace=2             " make backspace behave normally
-set expandtab               " insem tabs as spaces
-set shiftwidth=2            " number of spaces for auto indent and line shift
+"set expandtab               " insem tabs as spaces
+set shiftwidth=0            " number of spaces for auto indent and line shift
 set cindent                 " syntax-aware auto indent
 set smarttab                " <BS> deletes a shiftwidth worth of space
-set softtabstop=2           " number of spaces pressing <Tab> counts for
-set tabstop=2               " number of spaces a <Tab> in the file counts for
+set softtabstop=4           " number of spaces pressing <Tab> counts for
+set tabstop=4               " number of spaces a <Tab> in the file counts for
 
 set encoding=utf-8          " defualt text mode
 
@@ -163,7 +179,7 @@ if isdirectory(expand("~/.vim/bundle/nerdtree"))
 endif
 
 if isdirectory(expand("~/.vim/bundle/vim-airline"))
-  let g:airline_theme='luna'
+  let g:airline_theme='PaperColor'
   let g:airline_left_sep=''
   let g:airline_right_sep=''
   let g:airline#extensions#whitespace#enabled = 0
@@ -226,6 +242,6 @@ if isdirectory(expand("~/.vim/bundle/neocomplete.vim"))
   endif 
 endif
 
-if isdirectory(expand("~/.vim/bundle/emmet-vim"))
-    let g:user_emmet_leader_key='<C-d>'
-endif
+" if isdirectory(expand("~/.vim/bundle/emmet-vim"))
+"    let g:user_emmet_leader_key='<C-d>'
+" endif
