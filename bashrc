@@ -32,7 +32,10 @@ source ~/.env
 ##############################################################################
 # simple no color prompt
 # export PS1="[\u@\h:\w] $ "
+# export PS1="\n\u at \h in \w >> "
 # multiline no color prompt
-# export PS1="\n\u at \h in\w\n>> "
+# export PS1="\n\u at \h in \w\n>> "
 # multiline color prompt
-export PS1="\n\e[0;31m\u\e[m at \e[0;33m\h\e[m in \e[m\e[0;36m\w\e[m\n\e[0;32m>>\e[m "
+ export PS1="\n\[\e[0;31m\]\u\[\e[0m\] at \[\e[0;33m\]\h\[\e[0m\] in \[\e[0;36m\]\w\[\e[0m\] \[\e[0;32m\]\n>>\[\e[0m\] "
+# color escapes must be like
+# \[\e[0;33m\] (red) and \[\e[0m\] (clear)
