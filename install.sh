@@ -6,7 +6,7 @@
 ########## Variables
 dir=~/.dotfiles                   # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
-files="bashrc aliases vimrc tmux.conf" # list of files/folders to symlink in homedir
+files="bashrc aliases env vimrc tmux.conf" # list of files/folders to symlink in homedir
 
 NORMAL=$(tput sgr0)  
 RED=$(tput setaf 1)  
