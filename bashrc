@@ -24,8 +24,9 @@ export HISTSIZE=100000000
 # instead of after closing the session.
 PROMPT_COMMAND='history -a'
 
-source ~/.aliases
 source ~/.env
+source ~/.aliases
+source ~/.local_shellrc
 
 ##############################################################################
 # Shell prompt                                                               #

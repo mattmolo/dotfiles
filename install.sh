@@ -42,6 +42,9 @@ done
 #also move vim folder just in case, no need to link 
 mv ~/.vim $olddir 2>/dev/null
 
+# make sure a local rc file exists
+touch ~/.local_shellrc
+
 #install vim files
 echo -e "$CYAN Installing vim plugins (takes a few seconds) $NORMAL"
 vim +VundleInstall +qall

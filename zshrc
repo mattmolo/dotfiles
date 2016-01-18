@@ -40,3 +40,4 @@ bindkey '^Z' fancy-ctrl-z
 . ~/.dotfiles/z.sh
 
 source ~/.aliases
+source ~/.local_shellrc
