@@ -6,6 +6,7 @@
 "   General ................. General Vim behavior                           "
 "   Theme/Colors ............ Colors, fonts, etc.                            "
 "   Vim UI .................. User interface behavior                        "
+"   Remaps .................. Key and command remaps						 "
 "   Text Formatting/Layout .. Text, tab, indentation related                 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -16,7 +17,7 @@
 " Automatically setup Vundle on first run
 
 if !isdirectory(expand("~/.vim/bundle/vundle"))
-    call system("git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle")
+	call system("git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle")
 endif
 
 set nocompatible
@@ -26,19 +27,24 @@ set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
 
 Plugin 'gmarik/vundle'
-
 Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'junegunn/vim-easy-align'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
+Plugin 'cohama/lexima.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'mbbill/undotree'
+Plugin 'nvie/vim-togglemouse'
 Plugin 'mattn/emmet-vim'
 
 if has("Lua")
-  Plugin     'Shougo/neocomplete.vim'
+	Plugin 'Shougo/neocomplete.vim'
 endif
 
 filetype plugin indent on
@@ -49,10 +55,21 @@ filetype plugin indent on
 " get rid of Vi compatibility mode.
 set nocompatible
 
-" Allow saving of files as sudo when I forgot to start vim using sudo.
-cmap w!! w !sudo tee > /dev/null %
+" keep persistent_undo
+if has("persistent_undo")
+	silent call system('mkdir -p ~/.vimundo')
+	set undodir=~/.vimundo/
+	set undofile
+endif
 
-let mapleader = "\<Space>"
+" open help in vertical split
+augroup vimrc_help
+	autocmd!
+	autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif
+	augroup END
+augroup END
+
+set timeoutlen=1000 ttimeoutlen=0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Theme/Colors                                                               "
@@ -61,8 +78,8 @@ set t_Co=256              " enable 256-color mode.
 syntax enable             " enable syntax highlighting (previously syntax on).
 
 if isdirectory(expand("~/.vim/bundle/papercolor-theme/colors"))
-  set background=dark
-  colorscheme PaperColor
+	set background=dark
+	colorscheme PaperColor
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -79,57 +96,108 @@ set ignorecase            " Make searches case-insensitive.
 set ruler                 " Always show info along bottom.
 set showmatch             " show matching brackets
 set mat=1                 " tenths of a second to blink between matching brackets
+set mouse=a               " turn mouse mode on
 
 set splitbelow            " Split (sp) below
 set splitright            " Split (vsp) to the right
+
 
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 
 
-" remaps 
-"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Remaps                                                                     "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"let mapleader = "\<Space>"
+" map seems to be nicer than mapleader
+map <Space> <Leader>
+
 " map C-nav keys to move between splits
-nmap <C-J> <C-W><C-J>
-nmap <C-K> <C-W><C-K>
-nmap <C-L> <C-W><C-L>
-nmap <C-H> <C-W><C-H>
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 
 " faster than reaching for escape
-imap <C-j> <ESC>
+inoremap <C-j> <ESC>
 
+" lots of faster save methods
+" can't decide on favorite so there are many
 " :w, q, q!, x remaps 
-nmap <Leader>w :w<CR>
-nmap <Leader>q :q<CR>
-nmap <Leader>1 :q!<CR>
-nmap <Leader>x :wq<CR>
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>q :q<CR>
+nnoremap <Leader>1 :q!<CR>
+nnoremap <Leader>x :wq<CR>
 
-nmap <Esc>w :w<CR>
-nmap <Esc>q :q<CR>
-nmap <Esc>1 :q!<CR>
-nmap <Esc>x :wq<CR>
+nnoremap <Esc>w :w<CR>
+nnoremap <Esc>q :q<CR>
+nnoremap <Esc>1 :q!<CR>
+nnoremap <Esc>x :wq<CR>
+
+nnoremap S :w<CR>
+nnoremap X :x<CR>
 
 " faster pane switching
-nmap <C-w> <C-w><C-w>
+nnoremap <C-w> <C-w><C-w>
 
 " faster movement through file 
-nmap <Leader>j <C-d>
-nmap <Leader>k <C-u>
-" type q: map
-map q: :q
+nnoremap <Leader>j <C-d>
+nnoremap <Leader>k <C-u>
+
+" q: typo
+nnoremap q: :q
 
 " move to end of line with H and L
 " Takes over H (move to top of screen) and L (move to bottom of screen)
-" nmap H 0
-" nmap L $
+nnoremap <Leader>h 0
+nnoremap <Leader>l $
+
+" NERDCommentToggle, can't be nore for some reason
+nmap <Leader>, <Plug>NERDCommenterToggle
+vmap <Leader>, <Plug>NERDCommenterToggle
+
+" Faster :
+nnoremap <Leader>; <Esc>:
+vnoremap <Leader>; <Esc>:
+
+" Function key maps
+"
+" spellcheck
+noremap <silent> <F1> :setlocal spell!<CR>
+" quick rename (like file renaming for Windows)
+nnoremap	<F2> ciw
+vnoremap	<F2> c
+" NERDTree
+noremap <silent> <F3> :NERDTreeToggle<CR>
+" UndoTree
+noremap <silent> <F4> :UndotreeToggle<CR>
+" paste mode
+set pastetoggle=<F6>
+nnoremap <F6> :set paste<CR>o
+" Set numbers (easier copy)
+noremap <silent> <F7> :set nu!<CR> :GitGutterToggle<CR>
+
+
+" display tbas as a bar (works okay)
+"noremap <silent> <F3> :setlocal list!<CR>
+"set list
+"set list lcs=tab:\┆\ 
 
 " Remove trailing whitespaces
-nmap <silent> <Leader><BS> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>:w<CR>
+nnoremap <silent> <Leader><BS> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>:w<CR>
 
 " <TAB>: completion.
-imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
+" json pretty
+command -nargs=* JSON %!python -m json.tool
+
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
 
  
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -150,14 +218,28 @@ set tabstop=4               " number of spaces a <Tab> in the file counts for
 
 set encoding=utf-8          " defualt text mode
 
+" Folding: allow fold but not auto
+set foldmethod=syntax
+set foldlevelstart=99
+
+let javaScript_fold=1         " JavaScript
+let perl_fold=1               " Perl
+let php_fold=1                " PHP
+let r_syntax_folding=1        " R
+let ruby_fold=1               " Ruby
+let sh_fold_enabled=1         " sh
+let vimsyn_folding='af'       " Vim script
+let xml_syntax_folding=1      " XML
+
+
 " In Makefiles DO NOT use spaces instead of tabs
 autocmd FileType make setlocal noexpandtab
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
+	\ if line("'\"") > 0 && line("'\"") <= line("$") |
+	\   exe "normal! g`\"" |
+	\ endif
 " Remember info about open buffers on close
 set viminfo^=%
 
@@ -171,76 +253,72 @@ autocmd BufRead,BufNewFile *.markdown setlocal spell
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if isdirectory(expand("~/.vim/bundle/vim-easy-align"))
-  nmap <Leader>a <Plug>(EasyAlign)
+	nnoremap <Leader>a <Plug>(EasyAlign)
 endif
 
 if isdirectory(expand("~/.vim/bundle/nerdtree"))
-  nmap <Leader>n :NERDTreeToggle<CR>
+	nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
 endif
 
 if isdirectory(expand("~/.vim/bundle/vim-airline"))
-  let g:airline_left_sep=''
-  let g:airline_right_sep=''
-  let g:airline#extensions#whitespace#enabled = 0
-endif
-
-if isdirectory(expand("~/.vim/bundle/syntastic"))
-  let g:syntastic_check_on_wq=0
-  nmap <Leader>c :SyntasticCheck<CR>
+	let g:airline_left_sep=''
+	let g:airline_right_sep=''
+	let g:airline#extensions#whitespace#enabled = 0
 endif
 
 if isdirectory(expand("~/.vim/bundle/vim-go"))
-  au FileType go nmap <Leader>gr <Plug>(go-run)
-  au FileType go nmap <Leader>gb <Plug>(go-build)
-  au FileType go nmap <Leader>gd <Plug>(go-doc-vertical)
-  au FileType go nmap <Leader>gi <Plug>(go-info)
-  au FileType go nmap <Leader>gn <Plug>(go-rename)
+	au FileType go nmap <Leader>gr <Plug>(go-run)
+	au FileType go nmap <Leader>gb <Plug>(go-build)
+	au FileType go nmap <Leader>gd <Plug>(go-doc-vertical)
+	au FileType go nmap <Leader>gi <Plug>(go-info)
+	au FileType go nmap <Leader>gn <Plug>(go-rename)
 
-  let g:go_highlight_functions = 1
-  let g:go_highlight_methods = 1
-  let g:go_highlight_structs = 1
-  let g:go_highlight_operators = 1
-  let g:go_highlight_build_constraints = 1
+	let g:go_highlight_functions = 1
+	let g:go_highlight_methods = 1
+	let g:go_highlight_structs = 1
+	let g:go_highlight_operators = 1
+	let g:go_highlight_build_constraints = 1
 endif
 
 if isdirectory(expand("~/.vim/bundle/tagbar"))
-  nmap <Leader>t :TagbarToggle<CR>
-  let g:tagbar_type_go = {  
-      \ 'ctagstype' : 'go',
-      \ 'kinds'     : [
-          \ 'p:package',
-          \ 'i:imports:1',
-          \ 'c:constants',
-          \ 'v:variables',
-          \ 't:types',
-          \ 'n:interfaces',
-          \ 'w:fields',
-          \ 'e:embedded',
-          \ 'm:methods',
-          \ 'r:constructor',
-          \ 'f:functions'
-      \ ],
-      \ 'sro' : '.',
-      \ 'kind2scope' : {
-          \ 't' : 'ctype',
-          \ 'n' : 'ntype'
-      \ },
-      \ 'scope2kind' : {
-          \ 'ctype' : 't',
-          \ 'ntype' : 'n'
-      \ },
-      \ 'ctagsbin'  : 'gotags',
-      \ 'ctagsargs' : '-sort -silent'
-  \ }
+	nmap <Leader>t :TagbarToggle<CR>
+	let g:tagbar_type_go = {  
+		\ 'ctagstype' : 'go',
+		\ 'kinds'     : [
+			\ 'p:package',
+			\ 'i:imports:1',
+			\ 'c:constants',
+			\ 'v:variables',
+			\ 't:types',
+			\ 'n:interfaces',
+			\ 'w:fields',
+			\ 'e:embedded',
+			\ 'm:methods',
+			\ 'r:constructor',
+			\ 'f:functions'
+			\ ],
+		\ 'sro' : '.',
+		\ 'kind2scope' : {
+			\ 't' : 'ctype',
+			\ 'n' : 'ntype'
+		\ },
+		\ 'scope2kind' : {
+			\ 'ctype' : 't',
+			\ 'ntype' : 'n'
+		\ },
+		\ 'ctagsbin'  : 'gotags',
+		\ 'ctagsargs' : '-sort -silent'
+	\ }
 endif
 
 if isdirectory(expand("~/.vim/bundle/neocomplete.vim"))
-  if has("Lua") 
-    let g:neocomplete#enable_at_startup = 1
-    let g:neocomplete#enable_smart_case = 1
-  endif 
+	if has("Lua") 
+		let g:neocomplete#enable_at_startup = 1
+		let g:neocomplete#enable_smart_case = 1
+	endif 
 endif
 
-" if isdirectory(expand("~/.vim/bundle/emmet-vim"))
-"    let g:user_emmet_leader_key='<C-d>'
-" endif
+
+"if isdirectory(expand("~/.vim/bundle/emmet-vim"))
+	"let g:user_emmet_leader_key='<C-d>'
+"endif
