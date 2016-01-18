@@ -17,14 +17,14 @@ CYAN=$(tput setaf 6)
 echo -e "$CYAN Creating $olddir for backup of any existing dotfiles in ~ $NORMAL"
 
 if [ -d $olddir ]; then
-    echo -e "$RED $olddir already exists. Delete it? $NORMAL \c"
-    read -p "" -n 1 -r
-    if [[ $REPLY =~ ^[Yy]$ ]]
-    then
-        echo -e "\n$CYAN Removing $olddir $NORMAL"
-        rm -rf $olddir
-    fi    
-    printf "\n"
+	echo -e "$RED $olddir already exists. Delete it? $NORMAL \c"
+	read -p "" -n 1 -r
+	if [[ $REPLY =~ ^[Yy]$ ]]
+	then
+		echo -e "\n$CYAN Removing $olddir $NORMAL"
+		rm -rf $olddir
+	fi    
+	printf "\n"
 fi
 
 mkdir -p $olddir
@@ -34,9 +34,9 @@ cd $dir
 echo -e "$CYAN Moving any existing dotfiles from ~ to $olddir $NORMAL"
 
 for file in $files; do
-    mv ~/.$file $olddir 2>/dev/null
-    echo -e "$CYAN Creating symlink to $file in home directory $NORMAL"
-    ln -s $dir/$file ~/.$file
+	mv ~/.$file $olddir 2>/dev/null
+	echo -e "$CYAN Creating symlink to $file in home directory $NORMAL"
+	ln -s $dir/$file ~/.$file
 done
 
 #also move vim folder just in case, no need to link 
@@ -52,10 +52,10 @@ echo -e "$RED Install zsh-prezto? (Make sure to install zsh first) $NORMAL \c"
 read -p "" -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]] 
 then
-    printf "\n"
-    bash prezto_install.sh
+	printf "\n"
+	bash prezto_install.sh
 else 
-    printf "\n"
+	printf "\n"
 fi
 
 echo -e "\n$CYAN Finished! $NORMAL"
