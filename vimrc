@@ -216,12 +216,16 @@ set showcmd                 " show command line at bottom of screen
 set sidescroll=3            " scroll sideways 3 characters at a time
 
 set backspace=2             " make backspace behave normally
-"set expandtab               " insem tabs as spaces
-set shiftwidth=0            " number of spaces for auto indent and line shift
+"set expandtab              " insem tabs as spaces
+set shiftwidth=4            " number of spaces for auto indent and line shift
 set cindent                 " syntax-aware auto indent
 set smarttab                " <BS> deletes a shiftwidth worth of space
 set softtabstop=4           " number of spaces pressing <Tab> counts for
 set tabstop=4               " number of spaces a <Tab> in the file counts for
+set linebreak               " break on whitespace, not words
+if v:version >= 704
+    set breakindent         " preserve indentation on wrap
+endif
 
 set encoding=utf-8          " defualt text mode
 
