@@ -31,6 +31,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'tpope/vim-surround'
@@ -42,6 +43,12 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'mbbill/undotree'
 Plugin 'nvie/vim-togglemouse'
 Plugin 'mattn/emmet-vim'
+Plugin 'majutsushi/tagbar'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-easytags'
+Plugin 'nvie/vim-flake8'
+Plugin 'kristijanhusak/vim-hybrid-material'
 
 if has("Lua")
 	Plugin 'Shougo/neocomplete.vim'
@@ -73,7 +80,6 @@ endif
 augroup vimrc_help
 	autocmd!
 	autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif
-	augroup END
 augroup END
 
 set timeoutlen=1000 ttimeoutlen=0
@@ -82,12 +88,22 @@ set timeoutlen=1000 ttimeoutlen=0
 " Theme/Colors                                                               "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256              " enable 256-color mode.
-syntax enable             " enable syntax highlighting (previously syntax on).
 
 if isdirectory(expand("~/.vim/bundle/papercolor-theme/colors"))
 	set background=dark
+    let g:airline_theme = "papercolor"
 	colorscheme PaperColor
 endif
+
+if has("patch-7.4-1799") && isdirectory(expand("~/.vim/bundle/vim-hybrid-material"))
+    set termguicolors
+	set background=dark
+    let g:enable_bold_font = 1
+    let g:airline_theme = "hybrid"
+	colorscheme hybrid_reverse
+endif
+
+syntax enable             " enable syntax highlighting (previously syntax on).
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim UI                                                                     "
@@ -145,7 +161,14 @@ nnoremap <Esc>1 :q!<CR>
 nnoremap <Esc>x :wq<CR>
 
 nnoremap S :w<CR>
+nnoremap W :w<CR>
 nnoremap X :x<CR>
+
+" I do :W all the time...
+command -nargs=* W w
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
 
 " faster pane switching
 nnoremap <C-w> <C-w><C-w>
@@ -157,8 +180,7 @@ nnoremap <Leader>k <C-u>
 " q: typo
 nnoremap q: :q
 
-" move to end of line with H and L
-" Takes over H (move to top of screen) and L (move to bottom of screen)
+" move to end of line with <Leader> H & L
 nnoremap <Leader>h 0
 nnoremap <Leader>l $
 
@@ -178,8 +200,8 @@ nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
 " spellcheck
 noremap <silent> <F1> :setlocal spell!<CR>
 " quick rename (like file renaming for Windows)
-nnoremap	<F2> ciw
-vnoremap	<F2> c
+nnoremap <F2> ciw
+vnoremap <F2> c
 " NERDTree
 noremap <silent> <F3> :NERDTreeToggle<CR>
 " UndoTree
@@ -190,12 +212,6 @@ nnoremap <F6> :set paste<CR>o
 " Set numbers (easier copy)
 noremap <silent> <F7> :set nu!<CR> :GitGutterToggle<CR>
 
-
-" display tbas as a bar (works okay)
-"noremap <silent> <F3> :setlocal list!<CR>
-"set list
-"set list lcs=tab:\┆\ 
-
 " Remove trailing whitespaces
 nnoremap <silent> <Leader><BS> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>:w<CR>
 
@@ -205,9 +221,7 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 " json pretty
 command -nargs=* JSON %!python -m json.tool
 
-
-" Allow saving of files as sudo when I forgot to start vim using sudo.
-cmap w!! w !sudo tee > /dev/null %
+nnoremap <silent> K :Ggrep <cword><CR>
 
  
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -218,36 +232,33 @@ set scrolloff=5             " keep minimal number of lines above/below cursor
 set showcmd                 " show command line at bottom of screen
 set sidescroll=3            " scroll sideways 3 characters at a time
 
-set backspace=2             " make backspace behave normally
-"set expandtab              " insem tabs as spaces
+set expandtab               " insert tabs as spaces
 set shiftwidth=4            " number of spaces for auto indent and line shift
-set cindent                 " syntax-aware auto indent
-set smarttab                " <BS> deletes a shiftwidth worth of space
 set softtabstop=4           " number of spaces pressing <Tab> counts for
 set tabstop=4               " number of spaces a <Tab> in the file counts for
+set autoindent              " autoident things
+set cindent                 " syntax-aware auto indent
+set smarttab                " <BS> deletes a shiftwidth worth of space
 set linebreak               " break on whitespace, not words
+set encoding=utf-8          " defualt text mode
+set fileformat=unix         " dos is kill
+set foldmethod=manual       " vim is slow to compute folds
+
 if v:version >= 704
     set breakindent         " preserve indentation on wrap
 endif
 
-set encoding=utf-8          " defualt text mode
-
-" Folding: allow fold but not auto
-set foldmethod=syntax
-set foldlevelstart=99
-
-let javaScript_fold=1         " JavaScript
-let perl_fold=1               " Perl
-let php_fold=1                " PHP
-let r_syntax_folding=1        " R
-let ruby_fold=1               " Ruby
-let sh_fold_enabled=1         " sh
-let vimsyn_folding='af'       " Vim script
-let xml_syntax_folding=1      " XML
-
+" Options for specific file types:
 
 " In Makefiles DO NOT use spaces instead of tabs
 autocmd FileType make setlocal noexpandtab
+
+" Enable Spell Checking for markdown files
+autocmd BufRead,BufNewFile *.md setlocal spell
+autocmd BufRead,BufNewFile *.markdown setlocal spell
+
+" enable all Python syntax highlighting features
+let python_highlight_all = 1
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
@@ -257,10 +268,9 @@ autocmd BufReadPost *
 " Remember info about open buffers on close
 set viminfo^=%
 
+" Set OS X clipboard and vim as the same
+"set clipboard=unnamed
 
-" Enable Spell Checking for markdown files
-autocmd BufRead,BufNewFile *.md setlocal spell
-autocmd BufRead,BufNewFile *.markdown setlocal spell
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin specific
@@ -272,12 +282,18 @@ endif
 
 if isdirectory(expand("~/.vim/bundle/nerdtree"))
 	nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
+	" Hide some files
+	let NERDTreeIgnore = ['\.pyc$'] " Hide pyc files
 endif
 
 if isdirectory(expand("~/.vim/bundle/vim-airline"))
 	let g:airline_left_sep=''
 	let g:airline_right_sep=''
 	let g:airline#extensions#whitespace#enabled = 0
+	" Don't show the git branch (takes up too much room)
+	let g:airline_section_b = '%{airline#util#wrap(airline#extensions#hunks#get_hunks(),0)}'
+	" Don't show current tag (Ehh, don't need)
+	let g:airline_section_x = '%{airline#util#wrap(airline#parts#filetype(),0)}'
 endif
 
 if isdirectory(expand("~/.vim/bundle/vim-go"))
@@ -295,7 +311,7 @@ if isdirectory(expand("~/.vim/bundle/vim-go"))
 endif
 
 if isdirectory(expand("~/.vim/bundle/tagbar"))
-	nmap <Leader>t :TagbarToggle<CR>
+	nmap <Leader>t :TagbarOpenAutoClose<CR>
 	let g:tagbar_type_go = {  
 		\ 'ctagstype' : 'go',
 		\ 'kinds'     : [
