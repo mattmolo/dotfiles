@@ -170,6 +170,9 @@ vmap <Leader>, <Plug>NERDCommenterToggle
 nnoremap <Leader>; <Esc>:
 vnoremap <Leader>; <Esc>:
 
+" Fast replace word under cursor
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
+
 " Function key maps
 "
 " spellcheck
