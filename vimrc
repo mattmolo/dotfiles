@@ -6,7 +6,7 @@
 "   General ................. General Vim behavior                           "
 "   Theme/Colors ............ Colors, fonts, etc.                            "
 "   Vim UI .................. User interface behavior                        "
-"   Remaps .................. Key and command remaps						 "
+"   Remaps .................. Key and command remaps                         "
 "   Text Formatting/Layout .. Text, tab, indentation related                 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -17,7 +17,7 @@
 " Automatically setup Vundle on first run
 
 if !isdirectory(expand("~/.vim/bundle/vundle"))
-	call system("git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle")
+    call system("git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle")
 endif
 
 set nocompatible
@@ -49,9 +49,10 @@ Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-easytags'
 Plugin 'nvie/vim-flake8'
 Plugin 'kristijanhusak/vim-hybrid-material'
+Plugin 'ctrlpvim/ctrlp.vim'
 
 if has("Lua")
-	Plugin 'Shougo/neocomplete.vim'
+    Plugin 'Shougo/neocomplete.vim'
 endif
 
 filetype plugin indent on
@@ -64,22 +65,22 @@ set nocompatible
 
 " keep persistent_undo
 if has("persistent_undo")
-	silent call system('mkdir -p ~/.vimundo')
-	set undodir=~/.vimundo/
-	set undofile
+    silent call system('mkdir -p ~/.vimundo')
+    set undodir=~/.vimundo/
+    set undofile
 endif
 
 if &term =~ '256color'
-	" disable Background Color Erase (BCE) so that color schemes
-	" render properly when inside 256-color tmux and GNU screen.
-	" see also http://snk.tuxfamily.org/log/vim-256color-bce.html
-	set t_ut=
+    " disable Background Color Erase (BCE) so that color schemes
+    " render properly when inside 256-color tmux and GNU screen.
+    " see also http://snk.tuxfamily.org/log/vim-256color-bce.html
+    set t_ut=
 endif
 
 " open help in vertical split
 augroup vimrc_help
-	autocmd!
-	autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif
+    autocmd!
+    autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif
 augroup END
 
 set timeoutlen=1000 ttimeoutlen=0
@@ -90,17 +91,17 @@ set timeoutlen=1000 ttimeoutlen=0
 set t_Co=256              " enable 256-color mode.
 
 if isdirectory(expand("~/.vim/bundle/papercolor-theme/colors"))
-	set background=dark
+    set background=dark
     let g:airline_theme = "papercolor"
-	colorscheme PaperColor
+    colorscheme PaperColor
 endif
 
 if has("patch-7.4-1799") && isdirectory(expand("~/.vim/bundle/vim-hybrid-material"))
     set termguicolors
-	set background=dark
+    set background=dark
     let g:enable_bold_font = 1
     let g:airline_theme = "hybrid"
-	colorscheme hybrid_reverse
+    colorscheme hybrid_reverse
 endif
 
 syntax enable             " enable syntax highlighting (previously syntax on).
@@ -163,6 +164,7 @@ nnoremap <Esc>x :wq<CR>
 nnoremap S :w<CR>
 nnoremap W :w<CR>
 nnoremap X :x<CR>
+nnoremap Q :q<CR>
 
 " I do :W all the time...
 command -nargs=* W w
@@ -187,6 +189,8 @@ nnoremap <Leader>l $
 " NERDCommentToggle, can't be nore for some reason
 nmap <Leader>, <Plug>NERDCommenterToggle
 vmap <Leader>, <Plug>NERDCommenterToggle
+
+vnoremap <C-c> :.w !pbcopy<CR><CR>
 
 " Faster :
 nnoremap <Leader>; <Esc>:
@@ -217,6 +221,7 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " json pretty
 command -nargs=* JSON %!python -m json.tool
+command -nargs=* Fixtab :set tabstop=4 softtabstop=4 expandtab <bar> retab
 
 nnoremap <silent> K :Ggrep <cword><CR>
 
@@ -245,6 +250,8 @@ if v:version >= 704
     set breakindent         " preserve indentation on wrap
 endif
 
+set list listchars=tab:»·,trail:·
+
 " Options for specific file types:
 
 " In Makefiles DO NOT use spaces instead of tabs
@@ -259,9 +266,9 @@ let python_highlight_all = 1
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
-	\ if line("'\"") > 0 && line("'\"") <= line("$") |
-	\   exe "normal! g`\"" |
-	\ endif
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
 " Remember info about open buffers on close
 set viminfo^=%
 
@@ -274,78 +281,89 @@ set viminfo^=%
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if isdirectory(expand("~/.vim/bundle/vim-easy-align"))
-	nnoremap <Leader>a <Plug>(EasyAlign)
+    nnoremap <Leader>a <Plug>(EasyAlign)
 endif
 
 if isdirectory(expand("~/.vim/bundle/nerdtree"))
-	nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
-	" Hide some files
-	let NERDTreeIgnore = ['\.pyc$'] " Hide pyc files
+    nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
+    " Hide some files
+    let NERDTreeIgnore = ['\.pyc$'] " Hide pyc files
 endif
 
 if isdirectory(expand("~/.vim/bundle/vim-airline"))
-	let g:airline_left_sep=''
-	let g:airline_right_sep=''
-	let g:airline#extensions#whitespace#enabled = 0
-	" Don't show the git branch (takes up too much room)
-	let g:airline_section_b = '%{airline#util#wrap(airline#extensions#hunks#get_hunks(),0)}'
-	" Don't show current tag (Ehh, don't need)
-	let g:airline_section_x = '%{airline#util#wrap(airline#parts#filetype(),0)}'
+    let g:airline_left_sep=''
+    let g:airline_right_sep=''
+    let g:airline#extensions#whitespace#enabled = 0
+    " Don't show the git branch (takes up too much room)
+    let g:airline_section_b = '%{airline#util#wrap(airline#extensions#hunks#get_hunks(),0)}'
+    " Don't show current tag (Ehh, don't need)
+    let g:airline_section_x = '%{airline#util#wrap(airline#parts#filetype(),0)}'
 endif
 
 if isdirectory(expand("~/.vim/bundle/vim-go"))
-	au FileType go nmap <Leader>gr <Plug>(go-run)
-	au FileType go nmap <Leader>gb <Plug>(go-build)
-	au FileType go nmap <Leader>gd <Plug>(go-doc-vertical)
-	au FileType go nmap <Leader>gi <Plug>(go-info)
-	au FileType go nmap <Leader>gn <Plug>(go-rename)
+    au FileType go nmap <Leader>gr <Plug>(go-run)
+    au FileType go nmap <Leader>gb <Plug>(go-build)
+    au FileType go nmap <Leader>gd <Plug>(go-doc-vertical)
+    au FileType go nmap <Leader>gi <Plug>(go-info)
+    au FileType go nmap <Leader>gn <Plug>(go-rename)
 
-	let g:go_highlight_functions = 1
-	let g:go_highlight_methods = 1
-	let g:go_highlight_structs = 1
-	let g:go_highlight_operators = 1
-	let g:go_highlight_build_constraints = 1
+    let g:go_highlight_functions = 1
+    let g:go_highlight_methods = 1
+    let g:go_highlight_structs = 1
+    let g:go_highlight_operators = 1
+    let g:go_highlight_build_constraints = 1
 endif
 
 if isdirectory(expand("~/.vim/bundle/tagbar"))
-	nmap <Leader>t :TagbarOpenAutoClose<CR>
-	let g:tagbar_type_go = {  
-		\ 'ctagstype' : 'go',
-		\ 'kinds'     : [
-			\ 'p:package',
-			\ 'i:imports:1',
-			\ 'c:constants',
-			\ 'v:variables',
-			\ 't:types',
-			\ 'n:interfaces',
-			\ 'w:fields',
-			\ 'e:embedded',
-			\ 'm:methods',
-			\ 'r:constructor',
-			\ 'f:functions'
-			\ ],
-		\ 'sro' : '.',
-		\ 'kind2scope' : {
-			\ 't' : 'ctype',
-			\ 'n' : 'ntype'
-		\ },
-		\ 'scope2kind' : {
-			\ 'ctype' : 't',
-			\ 'ntype' : 'n'
-		\ },
-		\ 'ctagsbin'  : 'gotags',
-		\ 'ctagsargs' : '-sort -silent'
-	\ }
+    nmap <Leader>t :TagbarOpenAutoClose<CR>
+    let g:tagbar_type_go = {  
+        \ 'ctagstype' : 'go',
+        \ 'kinds'     : [
+            \ 'p:package',
+            \ 'i:imports:1',
+            \ 'c:constants',
+            \ 'v:variables',
+            \ 't:types',
+            \ 'n:interfaces',
+            \ 'w:fields',
+            \ 'e:embedded',
+            \ 'm:methods',
+            \ 'r:constructor',
+            \ 'f:functions'
+            \ ],
+        \ 'sro' : '.',
+        \ 'kind2scope' : {
+            \ 't' : 'ctype',
+            \ 'n' : 'ntype'
+        \ },
+        \ 'scope2kind' : {
+            \ 'ctype' : 't',
+            \ 'ntype' : 'n'
+        \ },
+        \ 'ctagsbin'  : 'gotags',
+        \ 'ctagsargs' : '-sort -silent'
+    \ }
 endif
 
 if isdirectory(expand("~/.vim/bundle/neocomplete.vim"))
-	if has("Lua") 
-		let g:neocomplete#enable_at_startup = 1
-		let g:neocomplete#enable_smart_case = 1
-	endif 
+    if has("Lua") 
+        let g:neocomplete#enable_at_startup = 1
+        let g:neocomplete#enable_smart_case = 1
+    endif 
 endif
 
+if isdirectory(expand("~/.vim/bundle/vim-easytags"))
+    let g:easytags_async = 1
+endif
+
+if isdirectory(expand("~/.vim/bundle/ctrlp.vim"))
+    let g:ctrlp_map = 'D'
+    let g:ctrlp_prompt_mappings = {
+        \ 'AcceptSelection("e")': ['<c-v>', '<2-LeftMouse>'],
+        \ 'AcceptSelection("v")': ['<cr>', '<RightMouse>'],
+    \ }
+endif
 
 "if isdirectory(expand("~/.vim/bundle/emmet-vim"))
-	"let g:user_emmet_leader_key='<C-d>'
+    "let g:user_emmet_leader_key='<C-d>'
 "endif
