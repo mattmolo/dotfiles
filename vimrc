@@ -160,7 +160,7 @@ nnoremap <Esc>q :q<CR>
 nnoremap <Esc>1 :q!<CR>
 nnoremap <Esc>x :wq<CR>
 
-nnoremap S :w<CR>
+nnoremap Q :q<CR>
 nnoremap W :w<CR>
 nnoremap X :x<CR>
 
@@ -278,6 +278,10 @@ set viminfo^=%
 
 if isdirectory(expand("~/.vim/bundle/vim-easy-align"))
 	nnoremap <Leader>a <Plug>(EasyAlign)
+endif
+
+if isdirectory(expand("~/.vim/bundle/vim-easytags"))
+    let g:easytags_async = 1
 endif
 
 if isdirectory(expand("~/.vim/bundle/nerdtree"))
