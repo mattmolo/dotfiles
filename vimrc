@@ -161,7 +161,7 @@ nnoremap <Esc>q :q<CR>
 nnoremap <Esc>1 :q!<CR>
 nnoremap <Esc>x :wq<CR>
 
-nnoremap S :w<CR>
+nnoremap Q :q<CR>
 nnoremap W :w<CR>
 nnoremap X :x<CR>
 nnoremap Q :q<CR>
@@ -195,6 +195,9 @@ vnoremap <C-c> :.w !pbcopy<CR><CR>
 " Faster :
 nnoremap <Leader>; <Esc>:
 vnoremap <Leader>; <Esc>:
+
+" Fast replace word under cursor
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
 
 " Function key maps
 "
@@ -283,6 +286,10 @@ set viminfo^=%
 
 if isdirectory(expand("~/.vim/bundle/vim-easy-align"))
     nnoremap <Leader>a <Plug>(EasyAlign)
+endif
+
+if isdirectory(expand("~/.vim/bundle/vim-easytags"))
+    let g:easytags_async = 1
 endif
 
 if isdirectory(expand("~/.vim/bundle/nerdtree"))
