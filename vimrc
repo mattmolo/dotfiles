@@ -245,6 +245,7 @@ set linebreak               " break on whitespace, not words
 set encoding=utf-8          " defualt text mode
 set fileformat=unix         " dos is kill
 set foldmethod=manual       " vim is slow to compute folds
+set cc=80                   " Ruler at line 80
 
 if v:version >= 704
     set breakindent         " preserve indentation on wrap
