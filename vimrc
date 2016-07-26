@@ -161,7 +161,6 @@ nnoremap <Esc>q :q<CR>
 nnoremap <Esc>1 :q!<CR>
 nnoremap <Esc>x :wq<CR>
 
-nnoremap Q :q<CR>
 nnoremap W :w<CR>
 nnoremap X :x<CR>
 nnoremap Q :q<CR>
