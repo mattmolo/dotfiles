@@ -150,7 +150,7 @@ inoremap <C-j> <ESC>
 
 " lots of faster save methods
 " can't decide on favorite so there are many
-" :w, q, q!, x remaps 
+" :w, q, q!, x remaps
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>1 :q!<CR>
@@ -174,7 +174,7 @@ cmap w!! w !sudo tee > /dev/null %
 " faster pane switching
 nnoremap <C-w> <C-w><C-w>
 
-" faster movement through file 
+" faster movement through file
 nnoremap <Leader>j <C-d>
 nnoremap <Leader>k <C-u>
 
@@ -224,10 +224,11 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 " json pretty
 command -nargs=* JSON %!python -m json.tool
 command -nargs=* Fixtab :set tabstop=4 softtabstop=4 expandtab <bar> retab
+command -nargs=* Whitespace :%s/\s\+$
 
 nnoremap <silent> K :Ggrep <cword><CR>
 
- 
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text Formatting/Layout                                                     "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -323,7 +324,7 @@ endif
 
 if isdirectory(expand("~/.vim/bundle/tagbar"))
     nmap <Leader>t :TagbarOpenAutoClose<CR>
-    let g:tagbar_type_go = {  
+    let g:tagbar_type_go = {
         \ 'ctagstype' : 'go',
         \ 'kinds'     : [
             \ 'p:package',
@@ -353,10 +354,10 @@ if isdirectory(expand("~/.vim/bundle/tagbar"))
 endif
 
 if isdirectory(expand("~/.vim/bundle/neocomplete.vim"))
-    if has("Lua") 
+    if has("Lua")
         let g:neocomplete#enable_at_startup = 1
         let g:neocomplete#enable_smart_case = 1
-    endif 
+    endif
 endif
 
 if isdirectory(expand("~/.vim/bundle/vim-easytags"))

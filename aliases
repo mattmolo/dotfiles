@@ -31,19 +31,19 @@ function serve {
 alias tls="tmux ls"
 alias tkill="tmux kill-session -t"
 tnew () {
-	if [ $# -eq 0 ] ; then
-		tmux new
-	else
-		tmux new -s $1
-	fi
+    if [ $# -eq 0 ] ; then
+        tmux new
+    else
+        tmux new -s $1
+    fi
 }
 
 tatt () {
-	if [ $# -eq 0 ] ; then
-		tmux attach
-	else
-		tmux attach -t $1 $2
-	fi
+    if [ $# -eq 0 ] ; then
+        tmux attach
+    else
+        tmux attach -t $1 $2
+    fi
 }
 alias t="tnew"
 
@@ -64,7 +64,11 @@ gcom () {
 }
 
 gita () {
-  git add *; git commit -m $1; sleep 1; git push;
+    git add *; git commit -m $1; sleep 1; git push;
+}
+
+grr () {
+    egrep -rni --color $1 *
 }
 
 if [[ $platform == 'Linux' ]]; then
