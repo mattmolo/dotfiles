@@ -42,6 +42,7 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'mbbill/undotree'
 Plugin 'nvie/vim-togglemouse'
 Plugin 'mattn/emmet-vim'
+Plugin 'Konfekt/FastFold'
 
 if has("Lua")
 	Plugin 'Shougo/neocomplete.vim'
