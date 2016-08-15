@@ -217,14 +217,21 @@ noremap <silent> <F7> :set nu!<CR> :GitGutterToggle<CR>
 
 " Remove trailing whitespaces
 nnoremap <silent> <Leader><BS> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>:w<CR>
+command -nargs=* Whitespace :%s/\s\+$
+
+" Make < > shifts keep selection
+vnoremap < <gv
+vnoremap > >gv
+
+nnoremap < <<
+nnoremap > >>
 
 " <TAB>: completion.
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " json pretty
 command -nargs=* JSON %!python -m json.tool
-command -nargs=* Fixtab :set tabstop=4 softtabstop=4 expandtab <bar> retab
-command -nargs=* Whitespace :%s/\s\+$
+command -nargs=* Fixtab :set tabstop=4 softtabstop=4 expandtab <bar> retab <bar> Whitespace
 
 nnoremap <silent> K :Ggrep <cword><CR>
 

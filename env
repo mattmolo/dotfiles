@@ -2,8 +2,8 @@
 # Env Variables configurations                 #
 ################################################
 
-# Save 
-platform=$(uname)    
+# Save
+platform=$(uname)
 
 export EDITOR='vim'
 export VISUAL='vim'

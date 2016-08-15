@@ -3,7 +3,7 @@
 ################################################
 
 # Remember platform
-platform=$(uname)    
+platform=$(uname)
 
 # Easy edits to bash/zsh files
 alias bashrc="vim ~/.bashrc; source ~/.bashrc"
