@@ -23,8 +23,12 @@ alias v="vim"
 alias cdd="cd ~/Desktop/"
 alias pt="ping 8.8.8.8"
 
-function serve {
-  python -m SimpleHTTPServer $1
+function python-server {
+    python -m SimpleHTTPServer $1
+}
+
+function php-server {
+    php -S localhost:8000 -t .
 }
 
 # tmux things

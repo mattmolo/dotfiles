@@ -50,6 +50,7 @@ Plugin 'xolox/vim-easytags'
 Plugin 'nvie/vim-flake8'
 Plugin 'kristijanhusak/vim-hybrid-material'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'HerringtonDarkholme/yats.vim'
 
 if has("Lua")
     Plugin 'Shougo/neocomplete.vim'
