@@ -28,4 +28,5 @@ export PATH="$PATH:."
 
 if [[ $platform == 'Darwin' ]]; then
     export HOMEBREW_CASK_OPTS="--appdir=/Application"
+    export PATH="$HOME/anaconda2/bin:$PATH"
 fi

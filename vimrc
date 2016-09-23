@@ -51,6 +51,7 @@ Plugin 'nvie/vim-flake8'
 Plugin 'kristijanhusak/vim-hybrid-material'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'HerringtonDarkholme/yats.vim'
+Plugin 'posva/vim-vue'
 
 if has("Lua")
     Plugin 'Shougo/neocomplete.vim'
@@ -97,12 +98,13 @@ if isdirectory(expand("~/.vim/bundle/papercolor-theme/colors"))
     colorscheme PaperColor
 endif
 
+" The point at which we can have full colors :D
 if has("patch-7.4-1799") && isdirectory(expand("~/.vim/bundle/vim-hybrid-material"))
     set termguicolors
     set background=dark
     let g:enable_bold_font = 1
     let g:airline_theme = "hybrid"
-    colorscheme hybrid_reverse
+    colorscheme hybrid_material
 endif
 
 syntax enable             " enable syntax highlighting (previously syntax on).
@@ -169,6 +171,9 @@ nnoremap Q :q<CR>
 " I do :W all the time...
 command -nargs=* W w
 
+nnoremap j gj
+nnoremap k gk
+
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
@@ -190,7 +195,7 @@ nnoremap <Leader>l $
 nmap <Leader>, <Plug>NERDCommenterToggle
 vmap <Leader>, <Plug>NERDCommenterToggle
 
-vnoremap <C-c> :.w !pbcopy<CR><CR>
+vnoremap <C-c> :w !pbcopy<CR><CR>
 
 " Faster :
 nnoremap <Leader>; <Esc>:
