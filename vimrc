@@ -27,41 +27,61 @@ set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
 
 Plugin 'gmarik/vundle'
+
+" Extended Features and Accessability
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'tpope/vim-fugitive'
+Plugin 'mbbill/undotree'
+Plugin 'nvie/vim-togglemouse'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'scrooloose/syntastic'
+
+" Airline
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+
+" Themes and Aesthetics
+Plugin 'NLKNguyen/papercolor-theme'
+Plugin 'kristijanhusak/vim-hybrid-material'
+
+" GIT Help
+Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
+
+" Nicer movements
 Plugin 'junegunn/vim-easy-align'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'cohama/lexima.vim'
-Plugin 'scrooloose/syntastic'
-Plugin 'NLKNguyen/papercolor-theme'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'mbbill/undotree'
-Plugin 'nvie/vim-togglemouse'
-Plugin 'mattn/emmet-vim'
-Plugin 'majutsushi/tagbar'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-easytags'
-Plugin 'nvie/vim-flake8'
-Plugin 'kristijanhusak/vim-hybrid-material'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'HerringtonDarkholme/yats.vim'
-Plugin 'posva/vim-vue'
-Plugin 'rust-lang/rust.vim'
 Plugin 'terryma/vim-multiple-cursors'
-Plugin 'captbaritone/better-indent-support-for-php-with-html'
-Plugin 'kongo2002/fsharp-vim'
-Plugin 'fatih/vim-go'
+Plugin 'mattn/emmet-vim'
 
-"Plugin 'davidhalter/jedi-vim'
+" Language Support
+Plugin 'rust-lang/rust.vim' " Rust
+"Plugin 'davidhalter/jedi-vim' " Python
+Plugin 'nvie/vim-flake8' " Python Linter
+Plugin 'captbaritone/better-indent-support-for-php-with-html' " PHP + HTML
+Plugin 'kongo2002/fsharp-vim' " F#
+Plugin 'fatih/vim-go' " Go
+Plugin 'pangloss/vim-javascript' " JS
+Plugin 'isRuslan/vim-es6' " ES6
+Plugin 'HerringtonDarkholme/yats.vim' " Typescript
+Plugin 'posva/vim-vue' " Vue.js
+Plugin 'mxw/vim-jsx' " JSX
 
-if has("Lua")
-    Plugin 'Shougo/neocomplete.vim'
+if has("nvim")
+    " NVIM Only
+    Plugin 'Shougo/deoplete.nvim'
+else
+    " VIM Only
+
+    if has("Lua")
+        Plugin 'Shougo/neocomplete.vim'
+    endif
 endif
+
+
 
 filetype plugin indent on
 
@@ -395,6 +415,10 @@ if isdirectory(expand("~/.vim/bundle/ctrlp.vim"))
     \ }
 endif
 
-"if isdirectory(expand("~/.vim/bundle/emmet-vim"))
-    "let g:user_emmet_leader_key='<C-d>'
-"endif
+if isdirectory(expand("~/.vim/bundle/deoplete.nvim"))
+    let g:deoplete#enable_at_startup = 1
+endif
+
+if isdirectory(expand("~/.vim/bundle/vim-jsx"))
+    let g:jsx_ext_required = 0
+endif
