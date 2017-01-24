@@ -44,7 +44,6 @@ Plugin 'mbbill/undotree'
 Plugin 'nvie/vim-togglemouse'
 Plugin 'mattn/emmet-vim'
 Plugin 'majutsushi/tagbar'
-" Plugin 'davidhalter/jedi-vim'
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-easytags'
 Plugin 'nvie/vim-flake8'
@@ -57,6 +56,8 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'captbaritone/better-indent-support-for-php-with-html'
 Plugin 'kongo2002/fsharp-vim'
 Plugin 'fatih/vim-go'
+
+"Plugin 'davidhalter/jedi-vim'
 
 if has("Lua")
     Plugin 'Shougo/neocomplete.vim'
@@ -148,13 +149,16 @@ set whichwrap+=<,>,h,l
 map <Space> <Leader>
 
 " map C-nav keys to move between splits
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
+"nnoremap <C-J> <C-W><C-J>
+"nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " faster than reaching for escape
-inoremap <C-j> <ESC>
+" inoremap <C-j> <ESC>
+
+nnoremap <C-J> ddp==
+nnoremap <C-K> ddpkk==
 
 " lots of faster save methods
 " can't decide on favorite so there are many
