@@ -23,6 +23,8 @@ setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space.
 setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
 setopt HIST_BEEP                 # Beep when accessing non-existent history.
 
+unsetopt listambiguous           # Don't need to press tab twice to complete
+
 # Make Ctrl-z also resume background process
 fancy-ctrl-z () {
     if [[ $#BUFFER -eq 0 ]]; then

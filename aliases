@@ -10,6 +10,16 @@ alias bashrc="vim ~/.bashrc; source ~/.bashrc"
 alias zshrc="vim ~/.zshrc; source ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 
+# For BASH only
+if [ -n "${BASH+set}" ]; then
+    alias resource="source ~/.bashrc"
+fi
+
+# For ZSH only
+if [ -n "${ZSH_NAME+set}" ]; then
+    alias resource="source ~/.zshrc"
+fi
+
 # Easy directory traveral
 alias ..="cd .."
 alias ...="cd ../.."
@@ -62,6 +72,17 @@ alias gd="git diff"
 alias gnotrack="git update-index --assume-unchanged"
 alias gtrack="git update-index --no-assume-unchanged"
 alias grekt="git reset --hard HEAD"
+
+# python venv
+vactivate () {
+    if [ $# -eq 0 ] ; then
+        source env/bin/activate
+    else
+        source $1/bin/activate
+    fi
+}
+
+alias vdeactivate="deactivate"
 
 gcom () {
     git commit -am $1

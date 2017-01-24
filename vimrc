@@ -44,7 +44,7 @@ Plugin 'mbbill/undotree'
 Plugin 'nvie/vim-togglemouse'
 Plugin 'mattn/emmet-vim'
 Plugin 'majutsushi/tagbar'
-Plugin 'davidhalter/jedi-vim'
+" Plugin 'davidhalter/jedi-vim'
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-easytags'
 Plugin 'nvie/vim-flake8'
@@ -52,6 +52,11 @@ Plugin 'kristijanhusak/vim-hybrid-material'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'HerringtonDarkholme/yats.vim'
 Plugin 'posva/vim-vue'
+Plugin 'rust-lang/rust.vim'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'captbaritone/better-indent-support-for-php-with-html'
+Plugin 'kongo2002/fsharp-vim'
+Plugin 'fatih/vim-go'
 
 if has("Lua")
     Plugin 'Shougo/neocomplete.vim'
@@ -241,6 +246,7 @@ command -nargs=* Fixtab :set tabstop=4 softtabstop=4 expandtab <bar> retab <bar>
 
 nnoremap <silent> K :Ggrep <cword><CR>
 
+autocmd Filetype rust nnoremap <Leader>r :w <bar> !clear && rustc % && (tput setaf 2; echo "\nCompiled Successfully\!\n")<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text Formatting/Layout                                                     "
@@ -261,13 +267,13 @@ set linebreak               " break on whitespace, not words
 set encoding=utf-8          " defualt text mode
 set fileformat=unix         " dos is kill
 set foldmethod=manual       " vim is slow to compute folds
-set cc=80                   " Ruler at line 80
+" set cc=80                   " Ruler at line 80
 
 if v:version >= 704
     set breakindent         " preserve indentation on wrap
 endif
 
-set list listchars=tab:»·,trail:·
+" set list listchars=tab:»·,trail:·
 
 " Options for specific file types:
 

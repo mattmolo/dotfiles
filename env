@@ -30,3 +30,5 @@ if [[ $platform == 'Darwin' ]]; then
     export HOMEBREW_CASK_OPTS="--appdir=/Application"
     export PATH="$HOME/anaconda2/bin:$PATH"
 fi
+
+export VIRTUAL_ENV_DISABLE_PROMPT=1

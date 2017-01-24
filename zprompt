@@ -6,6 +6,12 @@ function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
 
+function venv {
+    if [ -n "${VIRTUAL_ENV+set}" ]; then
+        echo "($(basename "$VIRTUAL_ENV"))"
+    fi
+}
+
 function prompt_molo_setup {
   setopt LOCAL_OPTIONS
   unsetopt XTRACE KSH_ARRAYS
@@ -28,7 +34,7 @@ function prompt_molo_setup {
 
   # Define prompts.
 PROMPT='
-%F{red}%n %F{white}at %F{yellow}$(box_name) %F{white}in %F{cyan}%~%F{white}${(e)git_info[prompt]} 
+%F{red}%n %F{white}at %F{yellow}$(box_name) %F{white}in %F{cyan}%~%F{white}${(e)git_info[prompt]} %F{yellow}$(venv)%F{white}
 %F{blue}>> %F{white}'
   RPROMPT=''
 }
