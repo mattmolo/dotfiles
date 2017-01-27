@@ -36,6 +36,7 @@ Plugin 'nvie/vim-togglemouse'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
+Plugin 'ConradIrwin/vim-bracketed-paste'
 
 " Airline
 Plugin 'bling/vim-airline'
@@ -44,6 +45,7 @@ Plugin 'vim-airline/vim-airline-themes'
 " Themes and Aesthetics
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'kristijanhusak/vim-hybrid-material'
+Plugin 'nathanaelkane/vim-indent-guides'
 
 " GIT Help
 Plugin 'tpope/vim-fugitive'
@@ -56,6 +58,7 @@ Plugin 'tpope/vim-repeat'
 Plugin 'cohama/lexima.vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'mattn/emmet-vim'
+Plugin 'kana/vim-textobj-user'
 
 " Language Support
 Plugin 'rust-lang/rust.vim' " Rust
@@ -75,12 +78,10 @@ if has("nvim")
     Plugin 'Shougo/deoplete.nvim'
 else
     " VIM Only
-
     if has("Lua")
         Plugin 'Shougo/neocomplete.vim'
     endif
 endif
-
 
 
 filetype plugin indent on
@@ -88,8 +89,6 @@ filetype plugin indent on
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General                                                                    "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" get rid of Vi compatibility mode.
-set nocompatible
 
 " keep persistent_undo
 if has("persistent_undo")
@@ -138,6 +137,7 @@ syntax enable             " enable syntax highlighting (previously syntax on).
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim UI                                                                     "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 set number                " show line numbers
 set cul                   " highlight current line
 set wildmenu              " tab completion
@@ -164,54 +164,55 @@ set whichwrap+=<,>,h,l
 " Remaps                                                                     "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"let mapleader = "\<Space>"
-" map seems to be nicer than mapleader
+" Map seems to be nicer than mapleader
 map <Space> <Leader>
 
 " map C-nav keys to move between splits
-"nnoremap <C-J> <C-W><C-J>
-"nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-J> <C-W><C-J>
+" nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-" faster than reaching for escape
-" inoremap <C-j> <ESC>
+" Move lines up and down, and autoindent
+nnoremap J ddp==
+nnoremap K ddkkp==
 
-nnoremap <C-J> ddp==
-nnoremap <C-K> ddpkk==
+" select last pasted text
+nnoremap gp `[v`]
 
 " lots of faster save methods
 " can't decide on favorite so there are many
 " :w, q, q!, x remaps
+" Leader Versions
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>1 :q!<CR>
 nnoremap <Leader>x :wq<CR>
 
+" Escape Versions
 nnoremap <Esc>w :w<CR>
 nnoremap <Esc>q :q<CR>
 nnoremap <Esc>1 :q!<CR>
 nnoremap <Esc>x :wq<CR>
 
+" Shift Versions
 nnoremap W :w<CR>
 nnoremap X :x<CR>
 nnoremap Q :q<CR>
+nnoremap ! :q!<CR>
 
 " I do :W all the time...
 command -nargs=* W w
 
+" Allow moving through wrapped lines one at a time
 nnoremap j gj
 nnoremap k gk
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
-cmap w!! w !sudo tee > /dev/null %
+cmap w!! w !sudo tee > /dev/null % <cr>
 
 " faster pane switching
 nnoremap <C-w> <C-w><C-w>
-
-" faster movement through file
-nnoremap <Leader>j <C-d>
-nnoremap <Leader>k <C-u>
 
 " q: typo
 nnoremap q: :q
@@ -223,6 +224,9 @@ nnoremap <Leader>l $
 " NERDCommentToggle, can't be nore for some reason
 nmap <Leader>, <Plug>NERDCommenterToggle
 vmap <Leader>, <Plug>NERDCommenterToggle
+
+nmap <C-_> <Plug>NERDCommenterToggle
+vmap <C-_> <Plug>NERDCommenterToggle
 
 vnoremap <C-c> :w !pbcopy<CR><CR>
 
@@ -268,7 +272,7 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 command -nargs=* JSON %!python -m json.tool
 command -nargs=* Fixtab :set tabstop=4 softtabstop=4 expandtab <bar> retab <bar> Whitespace
 
-nnoremap <silent> K :Ggrep <cword><CR>
+nnoremap <silent> <C-g> :Ggrep <cword><CR>
 
 autocmd Filetype rust nnoremap <Leader>r :w <bar> !clear && rustc % && (tput setaf 2; echo "\nCompiled Successfully\!\n")<CR>
 
@@ -291,12 +295,13 @@ set linebreak               " break on whitespace, not words
 set encoding=utf-8          " defualt text mode
 set fileformat=unix         " dos is kill
 set foldmethod=manual       " vim is slow to compute folds
-" set cc=80                   " Ruler at line 80
+set cc=100                   " Ruler at line 80
 
 if v:version >= 704
     set breakindent         " preserve indentation on wrap
 endif
 
+set list listchars=trail:·
 " set list listchars=tab:»·,trail:·
 
 " Options for specific file types:
@@ -408,7 +413,7 @@ if isdirectory(expand("~/.vim/bundle/vim-easytags"))
 endif
 
 if isdirectory(expand("~/.vim/bundle/ctrlp.vim"))
-    let g:ctrlp_map = 'D'
+    "let g:ctrlp_map = 'D'
     let g:ctrlp_prompt_mappings = {
         \ 'AcceptSelection("e")': ['<c-v>', '<2-LeftMouse>'],
         \ 'AcceptSelection("v")': ['<cr>', '<RightMouse>'],
@@ -421,4 +426,86 @@ endif
 
 if isdirectory(expand("~/.vim/bundle/vim-jsx"))
     let g:jsx_ext_required = 0
+endif
+
+if isdirectory(expand("~/.vim/bundle/vim-indent-guides"))
+    nmap <silent><unique> <Leader>i <Plug>IndentGuidesToggle
+    let g:indent_guides_guide_size = 1
+endif
+
+if isdirectory(expand("~/.vim/bundle/vim-textobj-user"))
+    " Select a Text Object that is surrounded by whitespace
+    " use a<Space> and i<Space>. All normal things should work
+    " like ci<Space>, vi<Space>, di<Space>.. etc
+    call textobj#user#plugin('textinwhitespace', {
+    \   '-': {
+    \       'select-a-function': 'TextInWhitespaceA',
+    \       'select-a': 'a<Space>',
+    \       'select-i-function': 'TextInWhitespaceI',
+    \       'select-i': 'i<Space>',
+    \   },
+    \ })
+
+    " Select object, with surrounding whitespace
+    function! TextInWhitespaceA()
+        " Search for a whitespace char backwards on current line only
+        let s = search('\s', 'b', line('.'))
+
+        " If not found, (ie a word with no indent) use ^ and
+        " go to beginning of line
+        if s == 0
+            normal! ^
+        endif
+
+        " Save the current cursor position for the start
+        let head_pos = getpos('.')
+
+        " Find the next whitespace char
+        let s = search('\s', '', line('.'))
+
+        " If no whitespace on current line, (ie no trailing whitespace for
+        " last word), use $ to go to end of line
+        if s == 0
+            normal! $
+        endif
+
+        " Save the current cursor position for the end
+        let tail_pos = getpos('.')
+
+        return ['v', head_pos, tail_pos]
+    endfunction
+
+    " Select object, without surrounding whitespace
+    function! TextInWhitespaceI()
+        " Search for a whitespace char backwards on current line only
+        let s = search('\s', 'b', line('.'))
+
+        " If not found, (ie a word with no indent) use ^ and
+        " go to beginning of line
+        if s == 0
+            normal! ^
+            let head_pos = getpos('.')
+        else
+            " For other cases where it did find it, get the pos, but add 1 to
+            " the column so that it doesn't select the whitespace char it found
+            let head_pos = getpos('.')
+            let head_pos[2] = head_pos[2] + 1
+        endif
+
+        " Find the next whitespace char
+        let s = search('\s', '', line('.'))
+        " If no whitespace on current line, (ie no trailing whitespace for
+        " last word), use $ to go to end of line
+        if s == 0
+            normal! $
+            let tail_pos = getpos('.')
+        else
+            " For other cases where it did find it, get the pos, but subtract 1 to
+            " the column so that it doesn't select the whitespace char it found
+            let tail_pos = getpos('.')
+            let tail_pos[2] = tail_pos[2] - 1
+        endif
+
+        return ['v', head_pos, tail_pos]
+    endfunction
 endif
