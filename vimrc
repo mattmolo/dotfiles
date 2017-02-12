@@ -346,6 +346,10 @@ if isdirectory(expand("~/.vim/bundle/nerdtree"))
     let NERDTreeIgnore = ['\.pyc$'] " Hide pyc files
 endif
 
+if isdirectory(expand("~/.vim/bundle/vim-surround"))
+    autocmd FileType php let b:surround_63 = "<?php \r ?>"
+endif
+
 if isdirectory(expand("~/.vim/bundle/vim-airline"))
     let g:airline_left_sep=''
     let g:airline_right_sep=''
