@@ -73,28 +73,49 @@ alias gnotrack="git update-index --assume-unchanged"
 alias gtrack="git update-index --no-assume-unchanged"
 alias grekt="git reset --hard HEAD"
 
-# python venv
-vactivate () {
-    if [ $# -eq 0 ] ; then
-        source env/bin/activate
-    else
-        source $1/bin/activate
-    fi
+gpr(){
+    remote=`git remote -v | grep origin | head -1 | awk '{print $2}' | sed 's/.*:\(.*\)*/\1/' | sed 's/\.git$//'`
+    branch=`git rev-parse --abbrev-ref HEAD`
+    open "https://github.com/$remote/compare/${1:-master}...$branch?expand=1"
 }
-
-alias vdeactivate="deactivate"
 
 gcom () {
     git commit -am $1
 }
 
-gita () {
-    git add *; git commit -m $1; sleep 1; git push;
-}
-
+# Grep for a match, recursively, with colors and numbers
 grr () {
     egrep -rni --color $1 *
 }
+
+# python venv helper
+venv () {
+    # Deactivate if virtual env is active and return
+    if [ -n "${VIRTUAL_ENV+set}" ]; then
+        echo "Deactivating virtual env..."
+        deactivate
+        return
+    fi
+
+    # Default to env dir for virtual env
+    V_DIR="env"
+
+    # Argument 1 can override default dir
+    if [ -n "${1+set}" ]; then
+        V_DIR="$1"
+    fi
+
+    # If folder doesn't exist, make it
+    if [ ! -d "$V_DIR" ]; then
+        echo "Creating virtual env in \"$V_DIR\"..."
+        virtualenv "$V_DIR"
+    fi
+
+    # Activate the virtual env
+    echo "Activating virtual env..."
+    source "$V_DIR/bin/activate"
+}
+
 
 if [[ $platform == 'Linux' ]]; then
     # Linux things
