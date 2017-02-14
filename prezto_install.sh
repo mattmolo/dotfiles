@@ -32,6 +32,7 @@ if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
         ln -s $dir/$file ~/.$file 2>/dev/null
     done
 
+    rm ~/.zprezto/modules/prompt/functions/prompt_molo_setup 2>/dev/null
     ln -s $dir/zprompt ~/.zprezto/modules/prompt/functions/prompt_molo_setup 2>/dev/null
 
     # Set the default shell to zsh if it isn't currently set to zsh
