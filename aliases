@@ -97,8 +97,8 @@ venv () {
         return
     fi
 
-    # Default to env dir for virtual env
-    V_DIR="env"
+    # Default to venv dir for virtual env
+    V_DIR="venv"
 
     # Argument 1 can override default dir
     if [ -n "${1+set}" ]; then
