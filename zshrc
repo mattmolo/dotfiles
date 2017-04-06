@@ -28,12 +28,12 @@ unsetopt listambiguous           # Don't need to press tab twice to complete
 # Make Ctrl-z also resume background process
 fancy-ctrl-z () {
     if [[ $#BUFFER -eq 0 ]]; then
-          BUFFER="fg"
-              zle accept-line
-                else
-                      zleush-input
-    zle clear-screen
-  fi
+        BUFFER="fg"
+        zle accept-line
+    else
+        zleush-input
+        zle clear-screen
+    fi
 }
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z

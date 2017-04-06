@@ -33,10 +33,10 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'mbbill/undotree'
 Plugin 'nvie/vim-togglemouse'
-Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'ConradIrwin/vim-bracketed-paste'
+" Plugin 'christoomey/vim-tmux-navigator'
 
 " Airline
 Plugin 'bling/vim-airline'
@@ -129,7 +129,7 @@ if has("patch-7.4-1799") && isdirectory(expand("~/.vim/bundle/vim-hybrid-materia
     set background=dark
     let g:enable_bold_font = 1
     let g:airline_theme = "hybrid"
-    colorscheme hybrid_material
+    colorscheme hybrid_reverse
 endif
 
 syntax enable             " enable syntax highlighting (previously syntax on).
@@ -190,10 +190,10 @@ nnoremap <Leader>1 :q!<CR>
 nnoremap <Leader>x :wq<CR>
 
 " Escape Versions
-nnoremap <Esc>w :w<CR>
-nnoremap <Esc>q :q<CR>
-nnoremap <Esc>1 :q!<CR>
-nnoremap <Esc>x :wq<CR>
+"nnoremap <Esc>w :w<CR>
+"nnoremap <Esc>q :q<CR>
+"nnoremap <Esc>1 :q!<CR>
+"nnoremap <Esc>x :wq<CR>
 
 " Shift Versions
 nnoremap W :w<CR>
