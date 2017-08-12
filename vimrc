@@ -46,6 +46,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'kristijanhusak/vim-hybrid-material'
 Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'mattmolo/vim-srcery-drk'
 
 " GIT Help
 Plugin 'tpope/vim-fugitive'
@@ -55,7 +56,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
-Plugin 'cohama/lexima.vim'
+"Plugin 'cohama/lexima.vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'mattn/emmet-vim'
 Plugin 'kana/vim-textobj-user'
@@ -115,7 +116,8 @@ set timeoutlen=1000 ttimeoutlen=0
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Theme/Colors                                                               "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set t_Co=256              " enable 256-color mode.
+" enable 256-color mode.
+set t_Co=256
 
 if isdirectory(expand("~/.vim/bundle/papercolor-theme/colors"))
     set background=dark
@@ -124,15 +126,16 @@ if isdirectory(expand("~/.vim/bundle/papercolor-theme/colors"))
 endif
 
 " The point at which we can have full colors :D
-if has("patch-7.4-1799") && isdirectory(expand("~/.vim/bundle/vim-hybrid-material"))
+if has("patch-7.4-1799") && isdirectory(expand("~/.vim/bundle/vim-srcery-drk"))
     set termguicolors
     set background=dark
     let g:enable_bold_font = 1
     let g:airline_theme = "hybrid"
-    colorscheme hybrid_reverse
+    colorscheme srcery-drk
 endif
 
-syntax enable             " enable syntax highlighting (previously syntax on).
+" enable syntax highlighting (previously syntax on).
+syntax enable
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim UI                                                                     "
@@ -167,15 +170,25 @@ set whichwrap+=<,>,h,l
 " Map seems to be nicer than mapleader
 map <Space> <Leader>
 
-" map C-nav keys to move between splits
-" nnoremap <C-J> <C-W><C-J>
-" nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+" move lines of text up/down and change indent with C-j/k/h/l
+nnoremap <C-j> :m .+1<CR>==
+nnoremap <C-k> :m .-2<CR>==
+nnoremap <C-l> >>
+nnoremap <C-h> <<
 
-" Move lines up and down, and autoindent
-nnoremap J ddp==
-nnoremap K ddkkp==
+nnoremap J :m .+1<CR>==
+nnoremap K :m .-2<CR>==
+
+inoremap <C-j> <Esc>:m .+1<CR>==gi
+inoremap <C-k> <Esc>:m .-2<CR>==gi
+inoremap <C-l> <Esc>>>i
+inoremap <C-h> <Esc><<i
+
+vnoremap <C-j> :m '>+1<CR>gv=gv
+vnoremap <C-k> :m '<-2<CR>gv=gv
+vnoremap <C-l> >gv
+vnoremap <C-h> <gv
+
 
 " select last pasted text
 nnoremap gp `[v`]
@@ -183,23 +196,27 @@ nnoremap gp `[v`]
 " lots of faster save methods
 " can't decide on favorite so there are many
 " :w, q, q!, x remaps
-" Leader Versions
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>q :q<CR>
-nnoremap <Leader>1 :q!<CR>
-nnoremap <Leader>x :wq<CR>
 
-" Escape Versions
-"nnoremap <Esc>w :w<CR>
-"nnoremap <Esc>q :q<CR>
-"nnoremap <Esc>1 :q!<CR>
-"nnoremap <Esc>x :wq<CR>
+" Enter saves
+nnoremap <Enter> :w<CR>
 
 " Shift Versions
 nnoremap W :w<CR>
 nnoremap X :x<CR>
 nnoremap Q :q<CR>
 nnoremap ! :q!<CR>
+
+" Leader Versions
+"nnoremap <Leader>w :w<CR>
+"nnoremap <Leader>q :q<CR>
+"nnoremap <Leader>1 :q!<CR>
+"nnoremap <Leader>x :wq<CR>
+
+" Escape Versions
+"nnoremap <Esc>w :w<CR>
+"nnoremap <Esc>q :q<CR>
+"nnoremap <Esc>1 :q!<CR>
+"nnoremap <Esc>x :wq<CR>
 
 " I do :W all the time...
 command -nargs=* W w
@@ -279,32 +296,36 @@ autocmd Filetype rust nnoremap <Leader>r :w <bar> !clear && rustc % && (tput set
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text Formatting/Layout                                                     "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nowrap                  " do not wrap text
-set scrolloff=5             " keep minimal number of lines above/below cursor
-set showcmd                 " show command line at bottom of screen
-set sidescroll=3            " scroll sideways 3 characters at a time
+set nowrap                         " do not wrap text
+set scrolloff=5                    " keep minimal number of lines above/below cursor
+set showcmd                        " show command line at bottom of screen
+set sidescroll=3                   " scroll sideways 3 characters at a time
+set expandtab                      " insert tabs as spaces
+set shiftwidth=4                   " number of spaces for auto indent and line shift
+set softtabstop=4                  " number of spaces pressing <Tab> counts for
+set tabstop=4                      " number of spaces a <Tab> in the file counts for
+set autoindent                     " autoident things
+set cindent                        " syntax-aware auto indent
+set smarttab                       " <BS> deletes a shiftwidth worth of space
+set linebreak                      " break on whitespace, not words
+set encoding=utf-8                 " defualt text mode
+set fileformat=unix                " dos is kill
+set foldmethod=manual              " vim is slow to compute folds
+set cc=110                         " ruler at line 110
+set list                           " display invisible chars
 
-set expandtab               " insert tabs as spaces
-set shiftwidth=4            " number of spaces for auto indent and line shift
-set softtabstop=4           " number of spaces pressing <Tab> counts for
-set tabstop=4               " number of spaces a <Tab> in the file counts for
-set autoindent              " autoident things
-set cindent                 " syntax-aware auto indent
-set smarttab                " <BS> deletes a shiftwidth worth of space
-set linebreak               " break on whitespace, not words
-set encoding=utf-8          " defualt text mode
-set fileformat=unix         " dos is kill
-set foldmethod=manual       " vim is slow to compute folds
-set cc=110                  " Ruler at line 110
+" Highlight trailing whitespace, tabs and nbsp
+set listchars=tab:\|·,trail:·,nbsp:+
 
 if v:version >= 704
     set breakindent         " preserve indentation on wrap
+
 endif
-
-set list listchars=trail:·
-" set list listchars=tab:»·,trail:·
-
 " Options for specific file types:
+
+" Use tabs for go
+autocmd FileType go setlocal noexpandtab
+autocmd FileType go setlocal listchars=tab:\ \ ,trail:·,nbsp:+
 
 " In Makefiles DO NOT use spaces instead of tabs
 autocmd FileType make setlocal noexpandtab
@@ -405,12 +426,12 @@ if isdirectory(expand("~/.vim/bundle/tagbar"))
     \ }
 endif
 
-if isdirectory(expand("~/.vim/bundle/neocomplete.vim"))
-    if has("Lua")
-        let g:neocomplete#enable_at_startup = 1
-        let g:neocomplete#enable_smart_case = 1
-    endif
-endif
+"if isdirectory(expand("~/.vim/bundle/neocomplete.vim"))
+    "if has("Lua")
+        "let g:neocomplete#enable_at_startup = 1
+        "let g:neocomplete#enable_smart_case = 1
+    "endif
+"endif
 
 if isdirectory(expand("~/.vim/bundle/vim-easytags"))
     let g:easytags_async = 1
@@ -432,10 +453,10 @@ if isdirectory(expand("~/.vim/bundle/vim-jsx"))
     let g:jsx_ext_required = 0
 endif
 
-if isdirectory(expand("~/.vim/bundle/vim-indent-guides"))
-    nmap <silent><unique> <Leader>i <Plug>IndentGuidesToggle
-    let g:indent_guides_guide_size = 1
-endif
+"if isdirectory(expand("~/.vim/bundle/vim-indent-guides"))
+    "nmap <silent><unique> <Leader>i <Plug>IndentGuidesToggle
+    "let g:indent_guides_guide_size = 1
+"endif
 
 if isdirectory(expand("~/.vim/bundle/vim-textobj-user"))
     " Select a Text Object that is surrounded by whitespace
