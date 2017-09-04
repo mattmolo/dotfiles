@@ -76,6 +76,7 @@ Plugin 'isRuslan/vim-es6' " ES6
 Plugin 'HerringtonDarkholme/yats.vim' " Typescript
 Plugin 'posva/vim-vue' " Vue.js
 Plugin 'mxw/vim-jsx' " JSX
+Plugin 'ap/vim-css-color'
 
 if has("nvim")
     " NVIM Only
@@ -314,6 +315,7 @@ set smarttab                       " <BS> deletes a shiftwidth worth of space
 set linebreak                      " break on whitespace, not words
 set encoding=utf-8                 " default text mode
 set fileformat=unix                " dos is kill
+set showbreak=↪\                   " show when line wraps
 
 " preserve indentation on wrap
 if v:version >= 704
@@ -336,7 +338,8 @@ autocmd FileType go,make
 """"""""""""""""""""""""""""""""""
 
 " Enable Spell Checking for markdown files
-autocmd BufRead,BufNewFile *.md, *.markdown setlocal spell
+autocmd FileType, markdown
+    \ setlocal spell
 
 " Enable all Python syntax highlighting features
 let python_highlight_all = 1
@@ -415,13 +418,6 @@ endif
 if isdirectory(expand("~/.vim/bundle/vim-indent-guides"))
     nmap <silent><unique> <Leader>i <Plug>IndentGuidesToggle
     let g:indent_guides_guide_size = 1
-endif
-
-if isdirectory(expand("~/.vim/bundle/auto-pairs"))
-    " Enable flymode for autopairs. Skip over multiple braces when doing
-    " things like foo(bar[x]) Read more: github.com/jiangmiao/auto-pairs
-    let g:AutoPairsFlyMode = 1
-    let g:AutoPairsShortcutBackInsert = '<C-b>'
 endif
 
 if isdirectory(expand("~/.vim/bundle/vim-textobj-user"))
