@@ -20,10 +20,11 @@ fi
 ################################################
 # Path configurations                          #
 ################################################
-export PATH="$PATH:~/Scripts"
 export GOPATH="$HOME/.go"
+export PATH="$PATH:$GOPATH/bin"
 
-export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin:$GOPATH/bin"
+export PATH="$PATH:~/.dotfiles/scripts"
+
 export PATH="$PATH:."
 
 if [[ $platform == 'Darwin' ]]; then
