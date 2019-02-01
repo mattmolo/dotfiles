@@ -8,7 +8,6 @@ platform=$(uname)
 # Easy edits to bash/zsh files
 alias bashrc="vim ~/.bashrc; source ~/.bashrc"
 alias zshrc="vim ~/.zshrc; source ~/.zshrc"
-alias ohmyzsh="vim ~/.oh-my-zsh"
 
 # For BASH only
 if [ -n "${BASH+set}" ]; then
@@ -25,6 +24,9 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+alias .......="cd ../../../../../.."
+alias ........="cd ../../../../../../.."
 
 # tiny aliases for misc things
 alias c="print '\a'; clear;"
@@ -32,6 +34,28 @@ alias e="exit"
 alias v="vim"
 alias cdd="cd ~/Desktop/"
 alias pt="ping 8.8.8.8"
+
+# add support for ctrl+o to open selected file in vim
+export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(vim {})+abort'"
+export FZF_DEFAULT_COMMAND='rg --files -S'
+alias f="fzf --preview 'bat --color \"always\" {}'"
+
+vimf() {
+    vim $(fzf --height 40%)
+}
+alias vf=vimf
+
+vimr() {
+    rg $1
+    file=$(rg -l $1 | fzf --height=40% --layout=reverse)
+    vim $file
+}
+
+alias r="rg --no-heading"
+
+# sl fun
+#alias choochoo="while true; do /usr/local/opt/sl/bin/sl; done"
+
 
 function python-server {
     python -m SimpleHTTPServer $1
@@ -44,7 +68,7 @@ function php-server {
 # tmux things
 alias tls="tmux ls"
 alias tkill="tmux kill-session -t"
-tnew () {
+tnew() {
     if [ $# -eq 0 ] ; then
         tmux new
     else
@@ -52,7 +76,7 @@ tnew () {
     fi
 }
 
-tatt () {
+tatt() {
     if [ $# -eq 0 ] ; then
         tmux attach
     else
@@ -79,17 +103,41 @@ gpr(){
     open "https://github.com/$remote/compare/${1:-master}...$branch?expand=1"
 }
 
-gcom () {
+gcom() {
     git commit -am $1
 }
 
 # Grep for a match, recursively, with colors and numbers
-grr () {
+grr() {
     egrep -rni --color $1 *
 }
 
+post() {
+    curl -d \
+    $2 -H "Content-Type: application/json" \
+    -X POST \
+    $1
+}
+
+put() {
+    curl -d \
+    $2 -H "Content-Type: application/json" \
+    -X PUT \
+    $1
+}
+
+delete() {
+    curl \
+    -X DELETE \
+    $1
+}
+
+get() {
+    curl $1
+}
+
 # python venv helper
-venv () {
+venv() {
     # Deactivate if virtual env is active and return
     if [ -n "${VIRTUAL_ENV+set}" ]; then
         echo "Deactivating virtual env..."
@@ -116,7 +164,7 @@ venv () {
     source "$V_DIR/bin/activate"
 }
 
-venv3 () {
+venv3() {
     # Deactivate if virtual env is active and return
     if [ -n "${VIRTUAL_ENV+set}" ]; then
         echo "Deactivating virtual env..."
@@ -143,17 +191,13 @@ venv3 () {
     source "$V_DIR/bin/activate"
 }
 
-
 if [[ $platform == 'Linux' ]]; then
     # Linux things
     alias apt="sudo apt-get"
     alias ls='ls --color=auto'
     alias l='ls -lahF --color=always'
-    alias ml="module load"
-    alias m="module"
 elif [[ $platform == 'Darwin' ]]; then
     # OS X things
-    alias choochoo="while true; do /usr/local/opt/sl/bin/sl; done"
     alias pb="pbpaste | pbcopy"
     alias ls='ls -G'
     alias l='ls -lahFG'

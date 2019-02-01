@@ -32,9 +32,14 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'mbbill/undotree'
 Plugin 'nvie/vim-togglemouse'
-Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'ConradIrwin/vim-bracketed-paste'
+Plugin 'mhinz/vim-startify'
+Plugin 'AndrewRadev/sideways.vim'
+
+" FZF fun
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plugin 'junegunn/fzf.vim'
 
 " Airline
 Plugin 'bling/vim-airline'
@@ -57,27 +62,12 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'mattn/emmet-vim'
 Plugin 'kana/vim-textobj-user'
 Plugin 'jiangmiao/auto-pairs'
+Plugin 'justinmk/vim-sneak'
+Plugin 'rhysd/clever-f.vim'
 
-" Language Support
-Plugin 'rust-lang/rust.vim' " Rust
+Plugin 'jeffkreeftmeijer/vim-dim'
 
-Plugin 'kongo2002/fsharp-vim' " F#
-
-Plugin 'fatih/vim-go' " Go
-
-Plugin 'nvie/vim-flake8' " Python Linter
-"Plugin 'davidhalter/jedi-vim' " Python
-
-Plugin 'captbaritone/better-indent-support-for-php-with-html' " PHP + HTML
-Plugin 'alvan/vim-closetag' " Close HTML Tags
-Plugin 'benjifisher/matchit.zip' " Match HTML tags
-Plugin 'pangloss/vim-javascript' " JS
-Plugin 'isRuslan/vim-es6' " ES6
-Plugin 'HerringtonDarkholme/yats.vim' " Typescript
-Plugin 'posva/vim-vue' " Vue.js
-Plugin 'mxw/vim-jsx' " JSX
-Plugin 'ap/vim-css-color'
-
+" Autocomplete
 if has("nvim")
     " NVIM Only
     Plugin 'Shougo/deoplete.nvim'
@@ -88,6 +78,31 @@ else
     endif
 endif
 
+" Language Support
+""""""""""""""""""""""
+
+" Rust
+Plugin 'rust-lang/rust.vim'
+
+" F#
+Plugin 'kongo2002/fsharp-vim'
+
+" Golang
+Plugin 'fatih/vim-go'
+
+" Python
+Plugin 'nvie/vim-flake8' " Linting
+
+" Web
+Plugin 'captbaritone/better-indent-support-for-php-with-html' " PHP + HTML
+Plugin 'alvan/vim-closetag' " Close HTML Tags
+Plugin 'benjifisher/matchit.zip' " Match HTML tags
+Plugin 'pangloss/vim-javascript' " JS
+Plugin 'isRuslan/vim-es6' " ES6
+Plugin 'HerringtonDarkholme/yats.vim' " Typescript
+Plugin 'posva/vim-vue' " Vue.js
+Plugin 'mxw/vim-jsx' " JSX
+Plugin 'ap/vim-css-color' " CSS
 
 filetype plugin indent on
 
@@ -169,7 +184,7 @@ set foldmethod=manual     " vim is slow to compute folds
 set scrolloff=5           " keep minimal number of lines above/below cursor
 set showcmd               " show command line at bottom of screen
 set sidescroll=3          " scroll sideways 3 characters at a time
-set cc=110                " ruler at line 110
+set cc=111                " ruler at line 110
 
 
 " Configure backspace so it acts as it should act
@@ -181,12 +196,6 @@ set whichwrap+=<,>,h,l
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Map seems to be nicer than mapleader
 map <Space> <Leader>
-
-" move lines of text up/down and change indent with C-j/k/h/l
-nnoremap <C-j> :m .+1<CR>==
-nnoremap <C-k> :m .-2<CR>==
-nnoremap <C-l> >>
-nnoremap <C-h> <<
 
 " Normal mode gets Shift+J/K and < > to move things around as well
 nnoremap J :m .+1<CR>==
@@ -211,6 +220,21 @@ vnoremap > >gv
 " select last pasted text
 nnoremap gp `[v`]
 
+nnoremap ; :
+vnoremap ; :
+
+nnoremap <Leader><Space> <C-w><C-w>
+
+nmap B ^
+nmap E $
+vmap B ^
+vmap E $
+
+nnoremap <Leader>c "+yy
+vnoremap <Leader>c "+y
+nnoremap <Leader>v o<Esc>"+P
+
+set lazyredraw
 
 " Faster save methods
 " :w, q, q!, x remaps
@@ -237,6 +261,9 @@ cmap w!! w !sudo tee > /dev/null % <cr>
 
 " faster pane switching
 nnoremap <C-w> <C-w><C-w>
+tnoremap <C-w> <C-w><C-w>
+
+tnoremap <C-i> <C-w>N
 
 " q: typo
 nnoremap q: :q
@@ -249,7 +276,6 @@ nnoremap <Leader>l $
 nmap <Leader>, <Plug>NERDCommenterToggle
 vmap <Leader>, <Plug>NERDCommenterToggle
 
-nmap <C-_> <Plug>NERDCommenterToggle
 vmap <C-_> <Plug>NERDCommenterToggle
 
 vnoremap <C-c> :w !pbcopy<CR><CR>
@@ -259,24 +285,31 @@ nnoremap <Leader>; <Esc>:
 vnoremap <Leader>; <Esc>:
 
 " Fast replace word under cursor
-nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
+nnoremap <Leader>s :set hlsearch <CR> :%s/\<<C-r><C-w>\>//g <bar> :set nohlsearch <Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
 " Grep for the current word in the working dir
 nnoremap <silent> <C-g> :Ggrep <cword><CR>
 
 " Remove trailing whitespaces with <Leader><BS> or :Whitespace
-nnoremap <silent> <Leader><BS> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>:w<CR>
-command -nargs=* Whitespace :%s/\s\+$
+"nnoremap <silent> <Leader><BS> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>:w<CR>
+nnoremap <silent> <Leader><BS> :TrimWhitespace <CR>
+command TrimWhitespace :%s/\s\+$//e <Bar> :exe "normal! g``"
 
 " Fix file to use spaces instead of tabs
-command -nargs=* Fixtab :set tabstop=4 softtabstop=4 expandtab <bar> retab <bar> Whitespace
+command Fixtab :set tabstop=4 softtabstop=4 expandtab <Bar> retab <Bar> TrimWhitespace
 
 " JSON pretty
-command -nargs=* JSON %!python -m json.tool
+command JSON %!python -m json.tool
+
+" A horrible command that takes the Python code you wrote and executes it,
+" then takes the output and puts it underneath the code that was executed
+" I'm really not sure, I was bored one Saturday...
+command EvalPy :exe 'normal! _"ay$o<Esc>!!python -c "from math import *; import requests; import json; print <C-r>a"<C-m>'
+"vnoremap <F5> "bygv:g/^$/d<CR>gv:s/$/;/<CR>gvJy<Esc>_"ay$dd"bP`[v`]<Esc>`>o<Esc>o<Esc>!!python -c "from math import *; import requests as rq; <C-r>a"<C-m>
+vnoremap <F8> :w! ~/.vim/inline_python_eval.py<CR>gv<Esc>`>o<Esc>:read !echo "from math import *; import requests; import json" <Bar> cat - ~/.vim/inline_python_eval.py <Bar> python - <CR>
 
 " <TAB>: completion.
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-
 
 " Function key maps
 """""""""""""""""""
@@ -301,6 +334,9 @@ nnoremap <F6> :set paste<CR>o
 " F7: Set numbers (easier copy)
 noremap <silent> <F7> :set nu!<CR> :GitGutterToggle<CR>
 
+nnoremap <Leader>t :w <bar> ! clear && make -f .makefile test<CR>
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text Formatting/Layout                                                     "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -309,6 +345,7 @@ set expandtab                      " insert tabs as spaces
 set shiftwidth=4                   " number of spaces for auto indent and line shift
 set softtabstop=4                  " number of spaces pressing <Tab> counts for
 set tabstop=4                      " number of spaces a <Tab> in the file counts for
+set shiftround                     " round to shiftwidth when using > <
 set autoindent                     " auto indent things
 set cindent                        " syntax-aware auto indent
 set smarttab                       " <BS> deletes a shiftwidth worth of space
@@ -326,10 +363,13 @@ endif
 set list
 set listchars=tab:\|·,trail:·,nbsp:+
 
-" Use tabs for go,makefiles
+" Use tabs for go, makefiles
 autocmd FileType go,make
     \ setlocal noexpandtab |
     \ setlocal listchars=tab:\ \ ,trail:·,nbsp:+
+
+autocmd FileType markdown
+    \ setlocal cc=81
 
 " Set OS X clipboard and vim as the same
 "set clipboard=unnamed
@@ -343,6 +383,9 @@ autocmd FileType, markdown
 
 " Enable all Python syntax highlighting features
 let python_highlight_all = 1
+
+" underline words that are misspelled
+highlight SpellBad cterm=underline
 
 " Map <Leader>r to compule and run rust code
 autocmd Filetype rust nnoremap <Leader>r :w <bar> !clear && rustc % && (tput setaf 2; echo "\nCompiled Successfully\!\n")<CR>
@@ -392,19 +435,21 @@ if isdirectory(expand("~/.vim/bundle/vim-go"))
     let g:go_highlight_build_constraints = 1
 endif
 
-"if isdirectory(expand("~/.vim/bundle/neocomplete.vim"))
-    "if has("Lua")
-        "let g:neocomplete#enable_at_startup = 1
-        "let g:neocomplete#enable_smart_case = 1
-    "endif
-"endif
+if isdirectory(expand("~/.vim/bundle/neocomplete.vim"))
+    if has("Lua")
+        let g:neocomplete#enable_at_startup = 1
+        let g:neocomplete#enable_smart_case = 1
+    endif
+endif
 
-if isdirectory(expand("~/.vim/bundle/ctrlp.vim"))
-    "let g:ctrlp_map = 'D'
-    let g:ctrlp_prompt_mappings = {
-        \ 'AcceptSelection("e")': ['<c-v>', '<2-LeftMouse>'],
-        \ 'AcceptSelection("v")': ['<cr>', '<RightMouse>'],
-    \ }
+if isdirectory(expand("~/.vim/bundle/sideways.vim"))
+    omap aa <Plug>SidewaysArgumentTextobjA
+    xmap aa <Plug>SidewaysArgumentTextobjA
+    omap ia <Plug>SidewaysArgumentTextobjI
+    xmap ia <Plug>SidewaysArgumentTextobjI
+
+    nnoremap <C-h> :SidewaysLeft<cr>
+    nnoremap <C-l> :SidewaysRight<cr>
 endif
 
 if isdirectory(expand("~/.vim/bundle/deoplete.nvim"))
@@ -418,6 +463,32 @@ endif
 if isdirectory(expand("~/.vim/bundle/vim-indent-guides"))
     nmap <silent><unique> <Leader>i <Plug>IndentGuidesToggle
     let g:indent_guides_guide_size = 1
+endif
+
+if isdirectory(expand("~/.vim/bundle/fzf.vim"))
+    nnoremap <C-p> :Files <CR>
+    nnoremap <Leader>p :Files <CR>
+    nnoremap <Leader>g :Rg<space>
+    let g:fzf_action = {'enter': 'vsplit', 'ctrl-p': 'open'}
+    let g:fzf_layout = { 'down': '~20%' }
+    command! -bang -nargs=? -complete=dir Files
+        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+    " Customize fzf colors to match your color scheme
+    let g:fzf_colors =
+        \ { 'fg':      ['fg', 'Normal'],
+        \ 'bg':      ['bg', 'Normal'],
+        \ 'hl':      ['fg', 'Comment'],
+        \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+        \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+        \ 'hl+':     ['fg', 'Statement'],
+        \ 'info':    ['fg', 'PreProc'],
+        \ 'border':  ['fg', 'Ignore'],
+        \ 'prompt':  ['fg', 'Conditional'],
+        \ 'pointer': ['fg', 'Exception'],
+        \ 'marker':  ['fg', 'Keyword'],
+        \ 'spinner': ['fg', 'Label'],
+        \ 'header':  ['fg', 'Comment'] }
 endif
 
 if isdirectory(expand("~/.vim/bundle/vim-textobj-user"))
