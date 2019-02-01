@@ -40,7 +40,7 @@ zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
 # load Z: https://github.com/rupa/z
-. ~/.dotfiles/z.sh
+. ~/.dotfiles/scripts/z.sh
 
 source ~/.aliases
 source ~/.local_shellrc
