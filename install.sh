@@ -10,7 +10,7 @@ dir=~/.dotfiles
 olddir=~/dotfiles_old
 
 # List of files/folders to symlink in homedir
-files="bashrc aliases env vimrc tmux.conf"
+files="bashrc aliases env vimrc tmux.conf gitconfig gitignore_global"
 
 NORMAL=$(tput sgr0)
 RED=$(tput setaf 1)
