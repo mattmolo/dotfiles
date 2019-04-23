@@ -36,6 +36,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'ConradIrwin/vim-bracketed-paste'
 Plugin 'mhinz/vim-startify'
 Plugin 'AndrewRadev/sideways.vim'
+Plugin 'majutsushi/tagbar'
 
 " FZF fun
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -230,9 +231,11 @@ nmap E $
 vmap B ^
 vmap E $
 
-nnoremap <Leader>c "+yy
-vnoremap <Leader>c "+y
-nnoremap <Leader>v o<Esc>"+P
+"nnoremap <Leader>c "+yy
+"vnoremap <Leader>c "+y
+"nnoremap <Leader>v o<Esc>"+P
+nnoremap <Leader>v :vsp ~/.vimrc<CR>
+nnoremap <Leader>t :TagbarToggle<CR>
 
 set lazyredraw
 
@@ -331,11 +334,8 @@ noremap <silent> <F4> :UndotreeToggle<CR>
 set pastetoggle=<F6>
 nnoremap <F6> :set paste<CR>o
 
-" F7: Set numbers (easier copy)
-noremap <silent> <F7> :set nu!<CR> :GitGutterToggle<CR>
-
-nnoremap <Leader>t :w <bar> ! clear && make -f .makefile test<CR>
-
+" F8: Set numbers (easier copy)
+noremap <silent> <F8> :set nu!<CR> :GitGutterToggle<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text Formatting/Layout                                                     "
@@ -386,9 +386,6 @@ let python_highlight_all = 1
 
 " underline words that are misspelled
 highlight SpellBad cterm=underline
-
-" Map <Leader>r to compule and run rust code
-autocmd Filetype rust nnoremap <Leader>r :w <bar> !clear && rustc % && (tput setaf 2; echo "\nCompiled Successfully\!\n")<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin specific
@@ -466,13 +463,18 @@ if isdirectory(expand("~/.vim/bundle/vim-indent-guides"))
 endif
 
 if isdirectory(expand("~/.vim/bundle/fzf.vim"))
-    nnoremap <C-p> :Files <CR>
     nnoremap <Leader>p :Files <CR>
-    nnoremap <Leader>g :Rg<space>
-    let g:fzf_action = {'enter': 'vsplit', 'ctrl-p': 'open'}
+
+    function FZFBufferTags()
+        let g:fzf_action = {'enter': 'edit', 'ctrl-p': 'edit'}
+        :BTags
+        let g:fzf_action = {'enter': 'vsplit', 'ctrl-p': 'edit'}
+    endfunction
+
+    nnoremap <Leader>o :call FZFBufferTags() <CR>
+
+    let g:fzf_action = {'enter': 'vsplit', 'ctrl-p': 'edit'}
     let g:fzf_layout = { 'down': '~20%' }
-    command! -bang -nargs=? -complete=dir Files
-        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
     " Customize fzf colors to match your color scheme
     let g:fzf_colors =

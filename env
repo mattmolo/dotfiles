@@ -33,3 +33,5 @@ if [[ $platform == 'Darwin' ]]; then
 fi
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"

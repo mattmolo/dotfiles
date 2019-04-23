@@ -37,18 +37,36 @@ alias pt="ping 8.8.8.8"
 
 # add support for ctrl+o to open selected file in vim
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(vim {})+abort'"
-export FZF_DEFAULT_COMMAND='rg --files -S'
+export FZF_DEFAULT_COMMAND='rg --files'
 alias f="fzf --preview 'bat --color \"always\" {}'"
 
 vimf() {
-    vim $(fzf --height 40%)
+    file=$(fzf --height 40%)
+
+    if [ -z "$file" ]; then
+        ;
+    else
+        vim $file
+    fi
 }
 alias vf=vimf
 
 vimr() {
-    rg $1
-    file=$(rg -l $1 | fzf --height=40% --layout=reverse)
-    vim $file
+    if [ $# -eq 0 ]; then
+        read search
+    else
+        $search = $1
+    fi
+
+
+    rg $search
+    file=$(rg -l $search | fzf --height=40% --layout=reverse)
+
+    if [ -z ${file+x} ]; then
+        ;
+    else
+        vim $file
+    fi
 }
 
 alias r="rg --no-heading"
@@ -112,28 +130,66 @@ grr() {
     egrep -rni --color $1 *
 }
 
-post() {
-    curl -d \
+http-post() {
+    curl -s -d \
     $2 -H "Content-Type: application/json" \
     -X POST \
     $1
 }
 
-put() {
-    curl -d \
+http-put() {
+    curl -s -d \
     $2 -H "Content-Type: application/json" \
     -X PUT \
     $1
 }
 
-delete() {
-    curl \
+http-patch() {
+    curl -s -d \
+    $2 -H "Content-Type: application/json" \
+    -X patch \
+    $1
+}
+
+http-delete() {
+    curl -s \
     -X DELETE \
     $1
 }
 
-get() {
-    curl $1
+http-get() {
+    curl -s $1
+}
+
+json-post() {
+    curl -s -d \
+    $2 -H "Content-Type: application/json" \
+    -X POST \
+    $1 | jq
+}
+
+json-put() {
+    curl -s -d \
+    $2 -H "Content-Type: application/json" \
+    -X PUT \
+    $1 | jq
+}
+
+json-patch() {
+    curl -s -d \
+    $2 -H "Content-Type: application/json" \
+    -X patch \
+    $1 | jq
+}
+
+json-delete() {
+    curl -s \
+    -X DELETE \
+    $1 | jq
+}
+
+json-get() {
+    curl -s $1 | jq
 }
 
 # python venv helper
