@@ -307,3 +307,5 @@ function docker_clean {
     fi
 }
 alias dclean="docker_clean"
+
+alias now="date -u +'%Y-%m-%d %H:%M:%SZ'"

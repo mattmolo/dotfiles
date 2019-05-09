@@ -363,6 +363,12 @@ endif
 set list
 set listchars=tab:\|·,trail:·,nbsp:+
 
+" Set OS X clipboard and vim as the same
+"set clipboard=unnamed
+
+" Options for specific file types:
+""""""""""""""""""""""""""""""""""
+
 " Use tabs for go, makefiles
 autocmd FileType go,make
     \ setlocal noexpandtab |
@@ -371,15 +377,15 @@ autocmd FileType go,make
 autocmd FileType markdown
     \ setlocal cc=81
 
-" Set OS X clipboard and vim as the same
-"set clipboard=unnamed
-
-" Options for specific file types:
-""""""""""""""""""""""""""""""""""
-
 " Enable Spell Checking for markdown files
 autocmd FileType, markdown
     \ setlocal spell
+
+" Enable Spell Checking for markdown files
+autocmd FileType, yaml
+    \ setlocal shiftwidth=2                   " number of spaces for auto indent and line shift
+    \ setlocal softtabstop=2                  " number of spaces pressing <Tab> counts for
+    \ setlocal tabstop=2                      " number of spaces a <Tab> in the file counts for
 
 " Enable all Python syntax highlighting features
 let python_highlight_all = 1
