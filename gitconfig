@@ -20,3 +20,5 @@
 	whitespace = red reverse
 [alias]
     rekt = reset --hard HEAD
+    pushup = push -u origin HEAD
+    sw = !git checkout $(git branch -a --format '%(refname:short)' | sed 's~origin/~~' | sort | uniq | fzf)
