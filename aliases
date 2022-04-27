@@ -43,9 +43,7 @@ alias f="fzf --preview 'bat --color \"always\" {}'"
 vimf() {
     file=$(fzf --height 40%)
 
-    if [ -z "$file" ]; then
-        ;
-    else
+    if [ ! -z "$file" ]; then
         vim $file
     fi
 }
@@ -62,9 +60,7 @@ vimr() {
     rg $search
     file=$(rg -l $search | fzf --height=40% --layout=reverse)
 
-    if [ -z ${file+x} ]; then
-        ;
-    else
+    if [ ! -z ${file+x} ]; then
         vim $file
     fi
 }
@@ -278,6 +274,7 @@ function extract {
         *.rar) unrar x -ad ./$1 ;;
         *.gz) gunzip ./$1 ;;
         *.tar) tar xvf ./$1 ;;
+        *.tbz) tar xvjf ./$1 ;;
         *.tbz2) tar xvjf ./$1 ;;
         *.tgz) tar xvzf ./$1 ;;
         *.zip) unzip ./$1 ;;
