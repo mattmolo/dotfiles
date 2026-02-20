@@ -6,6 +6,10 @@ function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
 
+function extra {
+    expiration-time
+}
+
 function venv_prompt_info {
     if [ -n "${VIRTUAL_ENV+set}" ]; then
         echo "($(basename "$VIRTUAL_ENV"))"

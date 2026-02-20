@@ -22,5 +22,7 @@
     rekt = reset --hard HEAD
     pushup = push -u origin HEAD
     sw = !git checkout $(git branch -a --format '%(refname:short)' | sed 's~origin/~~' | sort | uniq | fzf)
+    mm =  !git pull origin $(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
+    m =  !git checkout main
 [submodule]
 	recurse = true
