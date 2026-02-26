@@ -153,7 +153,7 @@ if isdirectory(expand("~/.vim/bundle/papercolor-theme/colors"))
 endif
 
 " The point at which we can have full colors :D
-if has("patch-7.4-1799") && isdirectory(expand("~/.vim/bundle/vim-srcery-drk"))
+if isdirectory(expand("~/.vim/bundle/vim-srcery-drk"))
     set termguicolors
     set background=dark
     let g:enable_bold_font = 1
