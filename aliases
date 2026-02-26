@@ -245,7 +245,7 @@ venv3() {
 
 if [[ $platform == 'Linux' ]]; then
     # Linux things
-    alias apt="sudo apt-get"
+    alias apt="sudo apt"
     alias ls='ls --color=auto'
     alias l='ls -lahF --color=always'
 elif [[ $platform == 'Darwin' ]]; then
@@ -291,18 +291,7 @@ function extract {
 }
 alias x="extract"
 
-function docker_clean {
-    # remove all exited containers
-    if [[ -n $(docker ps -aq -f status=exited) ]]; then
-        docker rm $(docker ps -aq -f status=exited)
-    fi
-
-    # remove <none> images
-    if [[ -n $(docker images -q --filter "dangling=true") ]]; then
-        docker rmi -f $(docker images -q --filter "dangling=true")
-        # docker rmi $(docker images | grep "^<none>" | awk '{print $3}')
-    fi
-}
-alias dclean="docker_clean"
+alias d="sudo docker"
+alias dc="sudo docker compose"
 
 alias now="date -u +'%Y-%m-%d %H:%M:%SZ'"
