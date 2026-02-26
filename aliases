@@ -103,7 +103,6 @@ alias t="tnew"
 # git things
 alias gadd="git add"
 alias gs="git status"
-alias gc="git checkout"
 alias gpull="git pull"
 alias gpush="git push"
 alias gd="git diff"
@@ -293,5 +292,39 @@ alias x="extract"
 
 alias d="sudo docker"
 alias dc="sudo docker compose"
+alias dl="docker logs -f --tail=300"
 
 alias now="date -u +'%Y-%m-%d %H:%M:%SZ'"
+
+fzf-git-branch() {
+    git rev-parse HEAD > /dev/null 2>&1 || return
+
+    git branch --color=never --all --sort=-committerdate | grep -v HEAD |sed "s/remotes\/origin\///" | sed "s/^ *//" | sed "s/ *$//" | sed "s/\* //" | awk '!x[$0]++' |
+        fzf --height 50% --ansi --no-multi --no-sort --print-query --preview-window right:65% \
+            --preview 'git-log-remote-or-not {}'
+}
+
+fzf-git-checkout() {
+    git rev-parse HEAD > /dev/null 2>&1 || return
+
+    if [ -n "$1" ]; then
+        git checkout "$1" 2>/dev/null || git checkout -b "$1"
+    else
+        local branch
+        branch=($(fzf-git-branch))
+
+        if [[ "$branch[1]" = "" ]]; then
+            echo "No branch selected."
+            return
+        fi
+
+        if [[ "$branch[2]" = "" ]]; then
+            git checkout "$branch[1]" 2>/dev/null || git checkout -b "$branch[1]"
+            return
+        fi
+
+        git checkout $branch[2]
+    fi
+}
+
+alias gc="fzf-git-checkout"

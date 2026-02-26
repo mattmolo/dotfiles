@@ -1,0 +1,8 @@
+#!/bin/bash
+
+exists=$(git branch | grep -v HEAD | sed "s/^\s*//" | sed "s/\s*$//" | sed "s/\* //" | grep -q $1 && echo "yes")
+if [[ "$exists" = "yes" ]]; then
+    git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" $1
+else
+    git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" remotes/origin/$1
+fi
