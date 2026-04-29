@@ -89,7 +89,7 @@ Plugin 'rust-lang/rust.vim'
 Plugin 'kongo2002/fsharp-vim'
 
 " Golang
-Plugin 'fatih/vim-go'
+" Plugin 'fatih/vim-go'
 
 " Python
 Plugin 'nvie/vim-flake8' " Linting

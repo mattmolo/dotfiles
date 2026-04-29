@@ -6,8 +6,8 @@
 platform=$(uname)
 
 # Easy edits to bash/zsh files
-alias bashrc="vim ~/.bashrc; source ~/.bashrc"
-alias zshrc="vim ~/.zshrc; source ~/.zshrc"
+alias bashrc="$EDITOR ~/.bashrc; source ~/.bashrc"
+alias zshrc="$EDITOR ~/.zshrc; source ~/.zshrc"
 
 # For BASH only
 if [ -n "${BASH+set}" ]; then
@@ -31,9 +31,11 @@ alias ........="cd ../../../../../../.."
 # tiny aliases for misc things
 alias c="print '\a'; clear;"
 alias e="exit"
-alias v="vim"
+alias v="$EDITOR"
 alias cdd="cd ~/Desktop/"
 alias pt="ping 8.8.8.8"
+
+alias cpr='rsync -ahW --progress'
 
 # add support for ctrl+o to open selected file in vim
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(vim {})+abort'"
@@ -44,7 +46,7 @@ vimf() {
     file=$(fzf --height 40%)
 
     if [ ! -z "$file" ]; then
-        vim $file
+        $EDITOR $file
     fi
 }
 alias vf=vimf
@@ -61,7 +63,7 @@ vimr() {
     file=$(rg -l $search | fzf --height=40% --layout=reverse)
 
     if [ ! -z ${file+x} ]; then
-        vim $file
+        $EDITOR $file
     fi
 }
 
@@ -290,8 +292,8 @@ function extract {
 }
 alias x="extract"
 
-alias d="sudo docker"
-alias dc="sudo docker compose"
+alias d="docker"
+alias dc="docker compose"
 alias dl="docker logs -f --tail=300"
 
 alias now="date -u +'%Y-%m-%d %H:%M:%SZ'"

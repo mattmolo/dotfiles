@@ -11,7 +11,6 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-export TERM=xterm-256color
 export HISTSIZE=100000000
 
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
@@ -25,6 +24,11 @@ setopt HIST_BEEP                 # Beep when accessing non-existent history.
 setopt nomenucomplete
 
 unsetopt listambiguous           # Don't need to press tab twice to complete
+
+# Allow zsh to complete commands after 'sudo'
+zstyle ':completion::complete:sudo::' 'user-context' root
+zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
+                             /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 
 # Make Ctrl-z also resume background process
 fancy-ctrl-z () {
