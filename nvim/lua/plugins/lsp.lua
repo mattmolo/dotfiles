@@ -11,12 +11,10 @@ return {
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
-      -- Neovim 0.11+ provides built-in defaults for capabilities and mappings.
-      -- We'll still set up our custom mappings for a better experience.
+      -- Buffer-local mappings on LSP attach.
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("UserLspConfig", {}),
         callback = function(ev)
-          local opts = { buffer = ev.buf }
           vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to Definition", buffer = ev.buf })
           vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "Go to References", buffer = ev.buf })
           vim.keymap.set("n", "<leader>d", vim.lsp.buf.hover, { desc = "Hover Documentation", buffer = ev.buf })
@@ -25,8 +23,22 @@ return {
         end,
       })
 
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      
+      -- Apply cmp completion capabilities to every server (Neovim 0.11+ global config).
+      vim.lsp.config("*", {
+        capabilities = require("cmp_nvim_lsp").default_capabilities(),
+      })
+
+      -- Server-specific overrides (merged onto the "*" config above).
+      vim.lsp.config("lua_ls", {
+        settings = {
+          Lua = {
+            diagnostics = { globals = { "vim" } },
+          },
+        },
+      })
+
+      -- mason-lspconfig 2.0 installs these and auto-enables them via
+      -- vim.lsp.enable(), using the vim.lsp.config() definitions above.
       require("mason-lspconfig").setup({
         ensure_installed = {
           "rust_analyzer",
@@ -35,25 +47,6 @@ return {
           "ts_ls",
           "vue_ls",
           "lua_ls",
-        },
-        handlers = {
-          -- Default handler for all servers
-          function(server_name)
-            require("lspconfig")[server_name].setup({
-              capabilities = capabilities,
-            })
-          end,
-          -- Specific overrides
-          ["lua_ls"] = function()
-            require("lspconfig").lua_ls.setup({
-              capabilities = capabilities,
-              settings = {
-                Lua = {
-                  diagnostics = { globals = { "vim" } },
-                },
-              },
-            })
-          end,
         },
       })
     end,

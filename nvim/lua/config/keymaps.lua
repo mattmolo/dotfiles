@@ -64,6 +64,10 @@ map("n", "<F8>", ":set nu!<CR>")
 
 map("n", "<Leader>c", "ciw")
 
+-- Toggle comments (uses mini.comment's gcc/gc operators)
+map("n", "<Leader>/", "gcc", { remap = true, desc = "Toggle comment" })
+map("v", "<Leader>/", "gc", { remap = true, desc = "Toggle comment" })
+
 -- Custom commands
 vim.api.nvim_create_user_command("W", "w", { nargs = "*" })
 
