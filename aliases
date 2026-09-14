@@ -330,3 +330,5 @@ fzf-git-checkout() {
 }
 
 alias gc="fzf-git-checkout"
+
+alias random-key="openssl rand -hex 64"
