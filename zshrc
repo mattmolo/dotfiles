@@ -47,5 +47,17 @@ bindkey '^Z' fancy-ctrl-z
 # load Z: https://github.com/rupa/z
 . ~/.dotfiles/bin/z.sh
 
+# fzf: Ctrl-R searches history, Ctrl-T inserts a file path, Alt-C / Ctrl-F cds into a subdirectory.
+# `fzf --zsh` needs fzf 0.48+; older Debian/Ubuntu packages ship the scripts instead.
+if fzf --zsh &> /dev/null; then
+    source <(fzf --zsh)
+elif [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+    source /usr/share/doc/fzf/examples/completion.zsh
+fi
+# Alt-C needs iTerm2's Option-as-Esc+, so also put the cd picker on Ctrl-F ("folder")
+bindkey -M viins '^F' fzf-cd-widget
+bindkey -M vicmd '^F' fzf-cd-widget
+
 source ~/.aliases
 source ~/.local_shellrc

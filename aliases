@@ -5,6 +5,10 @@
 # Remember platform
 platform=$(uname)
 
+################################################
+# Shell                                        #
+################################################
+
 # Easy edits to bash/zsh files
 alias bashrc="$EDITOR ~/.bashrc; source ~/.bashrc"
 alias zshrc="$EDITOR ~/.zshrc; source ~/.zshrc"
@@ -19,6 +23,10 @@ if [ -n "${ZSH_NAME+set}" ]; then
     alias resource="source ~/.zshrc"
 fi
 
+################################################
+# Navigation & misc                            #
+################################################
+
 # Easy directory traveral
 alias ..="cd .."
 alias ...="cd ../.."
@@ -29,80 +37,85 @@ alias .......="cd ../../../../../.."
 alias ........="cd ../../../../../../.."
 
 # tiny aliases for misc things
-alias c="print '\a'; clear;"
+alias c="clear"
 alias e="exit"
 alias v="$EDITOR"
 alias cdd="cd ~/Desktop/"
 alias pt="ping 8.8.8.8"
+alias now="date -u +'%Y-%m-%d %H:%M:%SZ'"
 
 alias cpr='rsync -ahW --progress'
 
-# add support for ctrl+o to open selected file in vim
-export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(vim {})+abort'"
-export FZF_DEFAULT_COMMAND='rg --files'
-alias f="fzf --preview 'bat --color \"always\" {}'"
+# sl fun
+# alias choochoo="while true; do /usr/local/opt/sl/bin/sl; done"
 
-vimf() {
-    file=$(fzf --height 40%)
-
-    if [ ! -z "$file" ]; then
-        $EDITOR $file
-    fi
-}
-alias vf=vimf
-
-vimr() {
-    if [ $# -eq 0 ]; then
-        read search
+# extract a file
+function extract {
+  if [ -z "$1" ]; then
+    # display usage if no parameters given
+    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+  else
+    if [ -f $1 ] ; then
+      # NAME=${1%.*}
+      # mkdir $NAME && cd $NAME
+      case $1 in
+        *.tar.bz2) tar xvjf ./$1 ;;
+        *.tar.gz) tar xvzf ./$1 ;;
+        *.tar.xz) tar xvJf ./$1 ;;
+        *.lzma) unlzma ./$1 ;;
+        *.bz2) bunzip2 ./$1 ;;
+        *.rar) unrar x -ad ./$1 ;;
+        *.gz) gunzip ./$1 ;;
+        *.tar) tar xvf ./$1 ;;
+        *.tbz) tar xvjf ./$1 ;;
+        *.tbz2) tar xvjf ./$1 ;;
+        *.tgz) tar xvzf ./$1 ;;
+        *.zip) unzip ./$1 ;;
+        *.Z) uncompress ./$1 ;;
+        *.7z) 7z x ./$1 ;;
+        *.xz) unxz ./$1 ;;
+        *.exe) cabextract ./$1 ;;
+        *) echo "extract: '$1' - unknown archive method" ;;
+      esac
     else
-        $search = $1
+      echo "$1 - file does not exist"
     fi
-
-
-    rg $search
-    file=$(rg -l $search | fzf --height=40% --layout=reverse)
-
-    if [ ! -z ${file+x} ]; then
-        $EDITOR $file
-    fi
+  fi
 }
+alias x="extract"
+
+################################################
+# Platform specific                            #
+################################################
+
+if [[ $platform == 'Linux' ]]; then
+    # Linux things
+    alias apt="sudo apt"
+    alias ls='ls --color=auto'
+    alias l='ls -lahF --color=always'
+elif [[ $platform == 'Darwin' ]]; then
+    # OS X things
+    alias pb="pbpaste | pbcopy"
+    alias ls='ls -G'
+    alias l='ls -lahFG'
+    alias o="open"
+fi
+
+################################################
+# Search                                       #
+################################################
 
 alias r="rg --no-heading"
 
-# sl fun
-#alias choochoo="while true; do /usr/local/opt/sl/bin/sl; done"
-
-
-function python-server {
-    python -m SimpleHTTPServer $1
+# Grep for a match, recursively, with colors and numbers
+grr() {
+    egrep -rni --color $1 *
 }
 
-function php-server {
-    php -S localhost:8000 -t .
-}
+################################################
+# Git                                          #
+################################################
 
-# tmux things
-alias tls="tmux ls"
-alias tkill="tmux kill-session -t"
-tnew() {
-    if [ $# -eq 0 ] ; then
-        tmux new
-    else
-        tmux new -s $1
-    fi
-}
-
-tatt() {
-    if [ $# -eq 0 ] ; then
-        tmux attach
-    else
-        tmux attach -t $1 $2
-    fi
-}
-alias t="tnew"
-
-
-# git things
 alias gadd="git add"
 alias gs="git status"
 alias gpull="git pull"
@@ -127,10 +140,42 @@ gcom() {
     git commit -am $1
 }
 
-# Grep for a match, recursively, with colors and numbers
-grr() {
-    egrep -rni --color $1 *
+################################################
+# tmux                                         #
+################################################
+
+alias tls="tmux ls"
+alias tkill="tmux kill-session -t"
+tnew() {
+    if [ $# -eq 0 ] ; then
+        tmux new
+    else
+        tmux new -s $1
+    fi
 }
+
+tatt() {
+    if [ $# -eq 0 ] ; then
+        tmux attach
+    else
+        tmux attach -t $1 $2
+    fi
+}
+alias t="tnew"
+
+################################################
+# Docker & systemd                             #
+################################################
+
+alias d="docker"
+alias dc="docker compose"
+alias dl="docker logs -f --tail=300"
+
+alias sct="sudo systemctl"
+
+################################################
+# HTTP                                         #
+################################################
 
 http-post() {
     curl -s -d \
@@ -194,6 +239,10 @@ json-get() {
     curl -s $1 | jq
 }
 
+################################################
+# Python & dev servers                         #
+################################################
+
 # python venv helper
 venv() {
     # Deactivate if virtual env is active and return
@@ -249,91 +298,103 @@ venv3() {
     source "$V_DIR/bin/activate"
 }
 
-if [[ $platform == 'Linux' ]]; then
-    # Linux things
-    alias apt="sudo apt"
-    alias ls='ls --color=auto'
-    alias l='ls -lahF --color=always'
-elif [[ $platform == 'Darwin' ]]; then
-    # OS X things
-    alias pb="pbpaste | pbcopy"
-    alias ls='ls -G'
-    alias l='ls -lahFG'
-    alias o="open"
+function python-server {
+    python -m SimpleHTTPServer $1
+}
+
+function php-server {
+    php -S localhost:8000 -t .
+}
+
+################################################
+# fzf (zsh only: bash stays a plain fallback)  #
+################################################
+
+if [ -n "${ZSH_NAME+set}" ]; then
+    # Prompt at the top for every fzf, a single line beside the preview,
+    # and ctrl+o to open the selected file in vim
+    export FZF_DEFAULT_OPTS="--layout=reverse --preview-window=border-left --bind='ctrl-o:execute(vim {})+abort'"
+    export FZF_DEFAULT_COMMAND='rg --files'
+
+    # fzf file preview: bat, or batcat (Debian/Ubuntu's name for it), or plain cat
+    if command -v bat > /dev/null; then
+        _fzf_preview='bat --style numbers --color always {}'
+    elif command -v batcat > /dev/null; then
+        _fzf_preview='batcat --style numbers --color always {}'
+    else
+        _fzf_preview='cat {}'
+    fi
+    alias f='fzf --preview "$_fzf_preview"'
+
+    # Ctrl-T: list files with rg (like plain fzf) instead of find, and preview them
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_CTRL_T_OPTS="--preview '$_fzf_preview'"
+
+    # Open a file picked by name
+    vimf() {
+        file=$(fzf --height 40% --preview "$_fzf_preview")
+
+        if [ ! -z "$file" ]; then
+            $EDITOR $file
+        fi
+    }
+    alias vf=vimf
+
+    # Open a file picked from the ones whose contents match
+    vimr() {
+        local search file
+        if [ $# -eq 0 ]; then
+            read search
+        else
+            search=$1
+        fi
+
+        rg "$search"
+        file=$(rg -l "$search" | fzf --height=40% --preview "$_fzf_preview")
+
+        if [ -n "$file" ]; then
+            $EDITOR "$file"
+        fi
+    }
+    alias vr=vimr
+
+    # Pick a directory you've been to (from z, most used first) with fzf. `zi foo` starts the search with foo.
+    zi() {
+        local dir
+        dir=$(_z -l 2>&1 | sort -rn | awk '{ $1 = ""; sub(/^ +/, ""); print }' |
+            fzf --height 40% --layout=reverse --no-sort --query "$*" --preview 'ls -A {}') && cd "$dir"
+    }
+
+    fzf-git-branch() {
+        git rev-parse HEAD > /dev/null 2>&1 || return
+
+        git branch --color=never --all --sort=-committerdate | grep -v HEAD |sed "s/remotes\/origin\///" | sed "s/^ *//" | sed "s/ *$//" | sed "s/\* //" | awk '!x[$0]++' |
+            fzf --height 50% --ansi --no-multi --no-sort --print-query --preview-window right:65% \
+                --preview 'git-log-remote-or-not {}'
+    }
+
+    fzf-git-checkout() {
+        git rev-parse HEAD > /dev/null 2>&1 || return
+
+        if [ -n "$1" ]; then
+            git checkout "$1" 2>/dev/null || git checkout -b "$1"
+        else
+            local branch
+            branch=($(fzf-git-branch))
+
+            if [[ "$branch[1]" = "" ]]; then
+                echo "No branch selected."
+                return
+            fi
+
+            if [[ "$branch[2]" = "" ]]; then
+                git checkout "$branch[1]" 2>/dev/null || git checkout -b "$branch[1]"
+                return
+            fi
+
+            git checkout $branch[2]
+        fi
+    }
+
+    alias gc="fzf-git-checkout"
 fi
-
-# extract a file
-function extract {
-  if [ -z "$1" ]; then
-    # display usage if no parameters given
-    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
-  else
-    if [ -f $1 ] ; then
-      # NAME=${1%.*}
-      # mkdir $NAME && cd $NAME
-      case $1 in
-        *.tar.bz2) tar xvjf ./$1 ;;
-        *.tar.gz) tar xvzf ./$1 ;;
-        *.tar.xz) tar xvJf ./$1 ;;
-        *.lzma) unlzma ./$1 ;;
-        *.bz2) bunzip2 ./$1 ;;
-        *.rar) unrar x -ad ./$1 ;;
-        *.gz) gunzip ./$1 ;;
-        *.tar) tar xvf ./$1 ;;
-        *.tbz) tar xvjf ./$1 ;;
-        *.tbz2) tar xvjf ./$1 ;;
-        *.tgz) tar xvzf ./$1 ;;
-        *.zip) unzip ./$1 ;;
-        *.Z) uncompress ./$1 ;;
-        *.7z) 7z x ./$1 ;;
-        *.xz) unxz ./$1 ;;
-        *.exe) cabextract ./$1 ;;
-        *) echo "extract: '$1' - unknown archive method" ;;
-      esac
-    else
-      echo "$1 - file does not exist"
-    fi
-  fi
-}
-alias x="extract"
-
-alias d="docker"
-alias dc="docker compose"
-alias dl="docker logs -f --tail=300"
-
-alias now="date -u +'%Y-%m-%d %H:%M:%SZ'"
-
-fzf-git-branch() {
-    git rev-parse HEAD > /dev/null 2>&1 || return
-
-    git branch --color=never --all --sort=-committerdate | grep -v HEAD |sed "s/remotes\/origin\///" | sed "s/^ *//" | sed "s/ *$//" | sed "s/\* //" | awk '!x[$0]++' |
-        fzf --height 50% --ansi --no-multi --no-sort --print-query --preview-window right:65% \
-            --preview 'git-log-remote-or-not {}'
-}
-
-fzf-git-checkout() {
-    git rev-parse HEAD > /dev/null 2>&1 || return
-
-    if [ -n "$1" ]; then
-        git checkout "$1" 2>/dev/null || git checkout -b "$1"
-    else
-        local branch
-        branch=($(fzf-git-branch))
-
-        if [[ "$branch[1]" = "" ]]; then
-            echo "No branch selected."
-            return
-        fi
-
-        if [[ "$branch[2]" = "" ]]; then
-            git checkout "$branch[1]" 2>/dev/null || git checkout -b "$branch[1]"
-            return
-        fi
-
-        git checkout $branch[2]
-    fi
-}
-
-alias gc="fzf-git-checkout"
-
-alias sct="sudo systemctl"
