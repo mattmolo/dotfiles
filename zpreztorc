@@ -41,6 +41,13 @@ zstyle ':prezto:load' pmodule \
   'prompt'
 
 #
+# Directory
+#
+
+# Don't define the -, d, 1-9 directory-stack aliases.
+zstyle ':prezto:module:directory:alias' skip 'yes'
+
+#
 # Editor
 #
 
@@ -53,6 +60,9 @@ zstyle ':prezto:module:editor' key-bindings 'vi'
 #
 # Git
 #
+
+# Don't define git aliases (they clash with functions in ~/.aliases).
+zstyle ':prezto:module:git:alias' skip 'yes'
 
 # Ignore submodules when they are 'dirty', 'untracked', 'all', or 'none'.
 # zstyle ':prezto:module:git:status:ignore' submodules 'all'

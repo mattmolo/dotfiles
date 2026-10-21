@@ -12,6 +12,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 export HISTSIZE=100000000
+export SAVEHIST=$HISTSIZE          # prezto defaults this to 10000, which caps the history file
 
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
