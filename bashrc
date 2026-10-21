@@ -6,9 +6,6 @@
 ##############################################################################
 # General Settings                                                           #
 ##############################################################################
-# Set the default editor to vim.
-export EDITOR=vim
- 
 # Avoid succesive duplicates in the bash command history.
 export HISTCONTROL=ignoredups
  
@@ -27,6 +24,9 @@ PROMPT_COMMAND='history -a'
 source ~/.env
 source ~/.aliases
 source ~/.local_shellrc
+
+# Follow whichever EDITOR ~/.local_shellrc picked (git and others check VISUAL first)
+export VISUAL="$EDITOR"
 
 ##############################################################################
 # Shell prompt                                                               #

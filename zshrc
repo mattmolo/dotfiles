@@ -61,3 +61,6 @@ bindkey -M vicmd '^F' fzf-cd-widget
 
 source ~/.aliases
 source ~/.local_shellrc
+
+# Follow whichever EDITOR ~/.local_shellrc picked (git and others check VISUAL first)
+export VISUAL="$EDITOR"

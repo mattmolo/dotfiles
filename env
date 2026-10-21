@@ -5,8 +5,9 @@
 # Save
 platform=$(uname)
 
+# Default editor; set EDITOR in ~/.local_shellrc to use something else (e.g. nvim) on a machine.
+# VISUAL is set to match after ~/.local_shellrc loads (see zshrc / bashrc).
 export EDITOR='vim'
-export VISUAL='vim'
 export PAGER='less'
 
 if [[ $platform == 'Darwin' ]]; then

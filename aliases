@@ -10,8 +10,8 @@ platform=$(uname)
 ################################################
 
 # Easy edits to bash/zsh files
-alias bashrc="$EDITOR ~/.bashrc; source ~/.bashrc"
-alias zshrc="$EDITOR ~/.zshrc; source ~/.zshrc"
+alias bashrc='$EDITOR ~/.bashrc; source ~/.bashrc'
+alias zshrc='$EDITOR ~/.zshrc; source ~/.zshrc'
 
 # For BASH only
 if [ -n "${BASH+set}" ]; then
@@ -39,7 +39,7 @@ alias ........="cd ../../../../../../.."
 # tiny aliases for misc things
 alias c="clear"
 alias e="exit"
-alias v="$EDITOR"
+alias v='$EDITOR'
 alias cdd="cd ~/Desktop/"
 alias pt="ping 8.8.8.8"
 alias now="date -u +'%Y-%m-%d %H:%M:%SZ'"
@@ -313,7 +313,7 @@ function php-server {
 if [ -n "${ZSH_NAME+set}" ]; then
     # Prompt at the top for every fzf, a single line beside the preview,
     # and ctrl+o to open the selected file in vim
-    export FZF_DEFAULT_OPTS="--layout=reverse --preview-window=border-left --bind='ctrl-o:execute($EDITOR {})+abort'"
+    export FZF_DEFAULT_OPTS="--layout=reverse --preview-window=border-left --bind='ctrl-o:execute(\$EDITOR {})+abort'"
     export FZF_DEFAULT_COMMAND='rg --files'
 
     # fzf file preview: bat, or batcat (Debian/Ubuntu's name for it), or plain cat
