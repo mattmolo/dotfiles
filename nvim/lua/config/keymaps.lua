@@ -36,8 +36,16 @@ map({ "n", "v" }, ";", ":")
 
 -- Pane management
 map("n", "<Leader><Space>", "<C-w><C-w>")
+-- Next split; in tmux, the last split moves on to the next tmux pane (tmux.conf passes <C-w> to nvim).
 -- nowait: Neovim's built-in <C-w>d / <C-w><C-d> would otherwise make this wait for timeoutlen
-map("n", "<C-w>", "<C-w><C-w>", { nowait = true })
+map("n", "<C-w>", function()
+    if vim.env.TMUX and vim.fn.winnr() == vim.fn.winnr("$") then
+        vim.cmd("1wincmd w") -- start from the first split when coming back
+        vim.system({ "tmux", "select-pane", "-t", ":.+" })
+    else
+        vim.cmd("wincmd w")
+    end
+end, { nowait = true, desc = "Next split, then next tmux pane" })
 
 -- Faster saving and quitting
 map("n", "W", ":w<CR>")
