@@ -36,12 +36,10 @@ map({ "n", "v" }, ";", ":")
 
 -- Pane management
 map("n", "<Leader><Space>", "<C-w><C-w>")
-map("n", "<C-w>", "<C-w><C-w>")
-map("t", "<C-w>", "<C-w><C-w>")
-map("t", "<C-i>", "<C-w>N")
+-- nowait: Neovim's built-in <C-w>d / <C-w><C-d> would otherwise make this wait for timeoutlen
+map("n", "<C-w>", "<C-w><C-w>", { nowait = true })
 
 -- Faster saving and quitting
-map("n", "<Enter>", ":w<CR>")
 map("n", "W", ":w<CR>")
 map("n", "X", ":x<CR>")
 map("n", "Q", ":q<CR>")
@@ -68,14 +66,6 @@ map("n", "<Leader>c", "ciw")
 map("n", "<Leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic under cursor" })
 map("n", "<Leader>q", vim.diagnostic.setqflist, { desc = "Diagnostics to quickfix" })
 
--- The global <Enter> -> :w mapping breaks jumping to entries in the
--- quickfix window; restore the default there
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "qf",
-    callback = function(ev)
-        map("n", "<Enter>", "<CR>", { buffer = ev.buf })
-    end,
-})
 
 -- Toggle comments (uses mini.comment's gcc/gc operators)
 map("n", "<Leader>/", "gcc", { remap = true, desc = "Toggle comment" })
@@ -100,12 +90,3 @@ vim.api.nvim_create_user_command("Fixtab", function()
 end, {})
 
 vim.api.nvim_create_user_command("JSON", "%!python3 -m json.tool", {})
-
-
--- EvalPy (Simplified version of your crazy command)
-vim.api.nvim_create_user_command("EvalPy", function()
-  local line = vim.api.nvim_get_current_line()
-  local cmd = string.format('python3 -c "from math import *; import requests; import json; print(%s)"', line)
-  local output = vim.fn.system(cmd)
-  vim.api.nvim_buf_set_lines(0, vim.fn.line("."), vim.fn.line("."), false, { output })
-end, {})

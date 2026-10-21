@@ -2,7 +2,28 @@ local opt = vim.opt
 
 -- General
 opt.mouse = "a"
-opt.clipboard = "unnamedplus"
+-- Yanks stay in nvim; use "+y / "+p for the system clipboard
+-- Over SSH without tmux there's no clipboard tool, so copy to the local
+-- terminal via OSC 52. iTerm2 can't be read from, so paste the last yank.
+if vim.env.SSH_TTY and not vim.env.TMUX then
+  local osc52 = require("vim.ui.clipboard.osc52")
+  local last = { {}, "v" }
+  local function copy(reg)
+    local send = osc52.copy(reg)
+    return function(lines, regtype)
+      last = { lines, regtype }
+      send(lines, regtype)
+    end
+  end
+  local function paste()
+    return last
+  end
+  vim.g.clipboard = {
+    name = "OSC 52 (copy only)",
+    copy = { ["+"] = copy("+"), ["*"] = copy("*") },
+    paste = { ["+"] = paste, ["*"] = paste },
+  }
+end
 opt.undofile = true
 -- Let Neovim use its default undodir (~/.local/state/nvim/undo)
 -- to prevent incompatible undo format conflicts with Vim.
