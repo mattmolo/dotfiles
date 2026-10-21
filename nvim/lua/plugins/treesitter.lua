@@ -1,13 +1,12 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    version = false, -- last release is very old, use master
+    branch = "main",
+    lazy = false, -- the main branch doesn't support lazy-loading
     build = ":TSUpdate",
-    event = { "BufReadPost", "BufNewFile" },
-    opts = {
-      highlight = { enable = false },
-      indent = { enable = true },
-      ensure_installed = {
+    config = function()
+      -- No-op for parsers that are already installed
+      require("nvim-treesitter").install({
         "bash",
         "c",
         "diff",
@@ -15,7 +14,6 @@ return {
         "javascript",
         "jsdoc",
         "json",
-        "jsonc",
         "lua",
         "luadoc",
         "luap",
@@ -32,10 +30,19 @@ return {
         "yaml",
         "rust",
         "go",
-      },
-    },
-    config = function(_, opts)
-      require("nvim-treesitter").setup(opts)
+      })
+
+      -- The main branch has no `indent = { enable = true }`; opt in per buffer instead.
+      -- Highlighting stays off (Neovim still starts it itself for lua, markdown, vimdoc, etc).
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("treesitter_indent", { clear = true }),
+        callback = function(ev)
+          local lang = vim.treesitter.language.get_lang(ev.match)
+          if lang and vim.treesitter.language.add(lang) then
+            vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          end
+        end,
+      })
     end,
   },
 }

@@ -57,7 +57,6 @@ map("n", "<Leader>l", "$")
 map({ "n", "v" }, "<F1>", ":setlocal spell!<CR>")
 map("n", "<F2>", "ciw")
 map("v", "<F2>", "c")
-map("n", "<F6>", ":set paste<CR>o")
 map("n", "<F8>", ":set nu!<CR>")
 
 map("n", "<Leader>c", "ciw")
@@ -72,7 +71,7 @@ map("n", "<Leader>/", "gcc", { remap = true, desc = "Toggle comment" })
 map("v", "<Leader>/", "gc", { remap = true, desc = "Toggle comment" })
 
 -- Custom commands
-vim.api.nvim_create_user_command("W", "w", { nargs = "*" })
+vim.api.nvim_create_user_command("W", "w<bang> <args>", { nargs = "*", bang = true, complete = "file" })
 
 vim.api.nvim_create_user_command("TrimWhitespace", function()
     local save = vim.fn.winsaveview()
