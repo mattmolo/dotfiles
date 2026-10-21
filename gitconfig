@@ -28,3 +28,7 @@
     recurse = true
 [init]
 	defaultBranch = main
+[safe]
+	directory = /srv/homeassistant/esphome
+[pull]
+	rebase = false

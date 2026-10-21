@@ -64,6 +64,19 @@ map("n", "<F8>", ":set nu!<CR>")
 
 map("n", "<Leader>c", "ciw")
 
+-- Diagnostics
+map("n", "<Leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic under cursor" })
+map("n", "<Leader>q", vim.diagnostic.setqflist, { desc = "Diagnostics to quickfix" })
+
+-- The global <Enter> -> :w mapping breaks jumping to entries in the
+-- quickfix window; restore the default there
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "qf",
+    callback = function(ev)
+        map("n", "<Enter>", "<CR>", { buffer = ev.buf })
+    end,
+})
+
 -- Toggle comments (uses mini.comment's gcc/gc operators)
 map("n", "<Leader>/", "gcc", { remap = true, desc = "Toggle comment" })
 map("v", "<Leader>/", "gc", { remap = true, desc = "Toggle comment" })

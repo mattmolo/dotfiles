@@ -90,6 +90,11 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     vim.opt_local.colorcolumn = "80"
     vim.opt_local.spell = true
+    vim.opt_local.wrap = true
+    vim.opt_local.breakindent = true
+    vim.opt_local.showbreak = "↪ "
+    vim.keymap.set({ "n", "x" }, "j", "gj", { buffer = true })
+    vim.keymap.set({ "n", "x" }, "k", "gk", { buffer = true })
   end,
 })
 

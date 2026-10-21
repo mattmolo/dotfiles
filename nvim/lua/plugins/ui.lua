@@ -11,14 +11,19 @@ return {
     },
   },
   {
-    "akinsho/bufferline.nvim",
-    version = "*",
-    dependencies = "nvim-tree/nvim-web-devicons",
-    opts = {},
-  },
-  {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
     opts = {},
+  },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+    ft = { "markdown" },
+    opts = {
+      -- Only render in the :Reflow reader popup; normal buffers stay raw
+      ignore = function(buf)
+        return vim.b[buf].reflow_source == nil
+      end,
+    },
   },
 }
