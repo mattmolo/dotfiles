@@ -43,6 +43,7 @@ alias v='$EDITOR'
 alias cdd="cd ~/Desktop/"
 alias pt="ping 8.8.8.8"
 alias now="date -u +'%Y-%m-%d %H:%M:%SZ'"
+alias random-key="openssl rand -hex 64"
 
 alias cpr='rsync -ahW --progress'
 
