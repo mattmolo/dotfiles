@@ -4,6 +4,7 @@
 [core]
     excludesfile = ~/.gitignore_global
     pager = diff-so-fancy | less --tabs=4 -RFX
+    # pager = less --tabs=4 -RFX (fallback)
 [color]
     ui = true
 [color "diff-highlight"]
@@ -21,14 +22,15 @@
 [alias]
     rekt = reset --hard HEAD
     pushup = push -u origin HEAD
+    undo = reset "HEAD~1"
     sw = !git checkout $(git branch -a --format '%(refname:short)' | sed 's~origin/~~' | sort | uniq | fzf)
     mm = !git pull origin $(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
     m =  !git checkout main
 [submodule]
     recurse = true
 [init]
-	defaultBranch = main
-[safe]
-	directory = /srv/homeassistant/esphome
+    defaultBranch = main
+[push]
+    autoSetupRemote = true
 [pull]
-	rebase = false
+    rebase = false

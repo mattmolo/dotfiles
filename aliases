@@ -313,7 +313,7 @@ function php-server {
 if [ -n "${ZSH_NAME+set}" ]; then
     # Prompt at the top for every fzf, a single line beside the preview,
     # and ctrl+o to open the selected file in vim
-    export FZF_DEFAULT_OPTS="--layout=reverse --preview-window=border-left --bind='ctrl-o:execute(vim {})+abort'"
+    export FZF_DEFAULT_OPTS="--layout=reverse --preview-window=border-left --bind='ctrl-o:execute($EDITOR {})+abort'"
     export FZF_DEFAULT_COMMAND='rg --files'
 
     # fzf file preview: bat, or batcat (Debian/Ubuntu's name for it), or plain cat
