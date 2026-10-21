@@ -54,6 +54,34 @@ echo -e "$CYAN Installing vim plugins (takes a few seconds) $NORMAL"
 vim +VundleInstall +qall
 clear
 
+# ask to set up neovim
+echo -e "$RED Set up neovim? (links ~/.config/nvim and makes it the editor) $NORMAL \c"
+read -p "" -n 1 -r
+printf "\n"
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    mkdir -p ~/.config
+    if [ "$(readlink ~/.config/nvim)" != "$dir/nvim" ]; then
+        echo -e "$CYAN Moving any existing ~/.config/nvim to $olddir $NORMAL"
+        mv ~/.config/nvim $olddir 2>/dev/null
+        echo -e "$CYAN Creating symlink to nvim in ~/.config $NORMAL"
+        ln -s $dir/nvim ~/.config/nvim
+    fi
+
+    # EDITOR is per machine, so it goes in the local rc file
+    if ! grep -q "^export EDITOR=nvim" ~/.local_shellrc; then
+        echo -e "$CYAN Setting EDITOR=nvim in ~/.local_shellrc $NORMAL"
+        echo "export EDITOR=nvim" >> ~/.local_shellrc
+    fi
+
+    if command -v nvim > /dev/null; then
+        echo -e "$CYAN Installing neovim plugins (takes a minute) $NORMAL"
+        nvim --headless "+Lazy! sync" +qa
+    else
+        echo -e "$RED nvim isn't installed; plugins will install on its first launch $NORMAL"
+    fi
+fi
+
 # ask to install oh-my-zsh
 echo -e "$RED Install zsh-prezto? (Make sure to install zsh first) $NORMAL \c"
 read -p "" -n 1 -r
