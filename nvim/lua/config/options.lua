@@ -55,7 +55,7 @@ opt.foldmethod = "manual"
 opt.scrolloff = 5
 opt.showcmd = true
 opt.sidescroll = 3
-opt.colorcolumn = "111"
+opt.colorcolumn = "101"
 opt.lazyredraw = false
 
 -- Formatting

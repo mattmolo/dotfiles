@@ -74,6 +74,40 @@ then
         echo "export EDITOR=nvim" >> ~/.local_shellrc
     fi
 
+    # nvim-treesitter needs the tree-sitter CLI to build parsers
+    if ! command -v tree-sitter > /dev/null; then
+        echo -e "$CYAN Installing tree-sitter CLI $NORMAL"
+        if command -v brew > /dev/null; then
+            brew install tree-sitter-cli
+        elif [[ "$(uname)" == "Linux" ]]; then
+            # distro packages are usually too old, so grab the release binary
+            case "$(uname -m)" in
+                x86_64) ts_arch=x64 ;;
+                aarch64|arm64) ts_arch=arm64 ;;
+                *) ts_arch="" ;;
+            esac
+            if [ -n "$ts_arch" ]; then
+                mkdir -p ~/.local/bin
+                curl -fsSL "https://github.com/tree-sitter/tree-sitter/releases/latest/download/tree-sitter-linux-$ts_arch.gz" \
+                    | gunzip > ~/.local/bin/tree-sitter \
+                    && chmod +x ~/.local/bin/tree-sitter
+                export PATH="$HOME/.local/bin:$PATH"
+            fi
+        fi
+        if ! command -v tree-sitter > /dev/null; then
+            echo -e "$RED Couldn't install tree-sitter CLI; treesitter parsers won't build $NORMAL"
+        fi
+    fi
+
+    # language servers that need a toolchain are skipped until it's installed (see nvim/lua/plugins/lsp.lua)
+    command -v go > /dev/null || missing="$missing go(gopls)"
+    command -v npm > /dev/null || missing="$missing npm(pyright,ts_ls,vue_ls)"
+    command -v cargo > /dev/null || missing="$missing cargo(rust_analyzer)"
+    if [ -n "$missing" ]; then
+        echo -e "$CYAN Not installed:$missing $NORMAL"
+        echo -e "$CYAN Those language servers are skipped; they install on the next nvim launch once the tool is there $NORMAL"
+    fi
+
     if command -v nvim > /dev/null; then
         echo -e "$CYAN Installing neovim plugins (takes a minute) $NORMAL"
         nvim --headless "+Lazy! sync" +qa

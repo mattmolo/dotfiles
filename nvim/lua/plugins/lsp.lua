@@ -36,17 +36,28 @@ return {
         },
       })
 
+      -- Only ask Mason for a server when the tool it needs is installed, so
+      -- machines without e.g. go or node don't get install errors on startup.
+      local servers_by_tool = {
+        -- Mason builds gopls with `go install`
+        go = { "gopls" },
+        -- these are npm packages
+        npm = { "pyright", "ts_ls", "vue_ls" },
+        -- rust-analyzer is a prebuilt binary, but it can't do anything without cargo
+        cargo = { "rust_analyzer" },
+      }
+      -- lua_ls is a prebuilt binary with no dependencies, and this config is lua
+      local servers = { "lua_ls" }
+      for tool, names in pairs(servers_by_tool) do
+        if vim.fn.executable(tool) == 1 then
+          vim.list_extend(servers, names)
+        end
+      end
+
       -- mason-lspconfig 2.0 installs these and auto-enables them via
       -- vim.lsp.enable(), using the vim.lsp.config() definitions above.
       require("mason-lspconfig").setup({
-        ensure_installed = {
-          "rust_analyzer",
-          "gopls",
-          "pyright",
-          "ts_ls",
-          "vue_ls",
-          "lua_ls",
-        },
+        ensure_installed = servers,
       })
     end,
   },
