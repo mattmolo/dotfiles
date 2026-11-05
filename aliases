@@ -369,7 +369,12 @@ if [ -n "${ZSH_NAME+set}" ]; then
     fzf-git-branch() {
         git rev-parse HEAD > /dev/null 2>&1 || return
 
-        git branch --color=never --all --sort=-committerdate | grep -v HEAD |sed "s/remotes\/origin\///" | sed "s/^ *//" | sed "s/ *$//" | sed "s/\* //" | awk '!x[$0]++' |
+        # Build the full list before fzf opens, so enter acts on a complete,
+        # correctly ordered list instead of whatever has streamed in so far
+        local branches
+        branches=$(git-branches-sorted) || return
+
+        print -r -- "$branches" |
             fzf --height 50% --ansi --no-multi --no-sort --print-query --preview-window right:65% \
                 --preview 'git-log-remote-or-not {}'
     }

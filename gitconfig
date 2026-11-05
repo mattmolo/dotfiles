@@ -35,3 +35,13 @@
 	default = current
 [pull]
     rebase = false
+# Work override: any repo under ~/work uses the work identity.
+# ~/.gitconfig.work is machine-local (not in dotfiles), e.g.:
+#   [user]
+#       email = matt.molo@planet.com
+# gitdir/i because macOS paths are case-insensitive (~/Work vs ~/work).
+[includeIf "gitdir/i:~/work/"]
+    path = ~/.gitconfig.work
+# Machine-local overrides, loaded last so they win.
+[include]
+    path = ~/.gitconfig.local

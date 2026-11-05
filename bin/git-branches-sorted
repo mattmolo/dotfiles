@@ -1,0 +1,23 @@
+#!/bin/bash
+# List branch names for a picker, in order of how likely you want them:
+#   1. main / master
+#   2. local branches, most recent commit first
+#   3. branches that only exist on origin, most recent commit first
+# Remote branches print without their "origin/" prefix; duplicates are dropped.
+# The current branch is left out, so picking the first entry toggles between
+# main/master and your most recent branch.
+
+git rev-parse --git-dir > /dev/null 2>&1 || exit 1
+
+has_ref() { git show-ref --verify --quiet "$1"; }
+current=$(git symbolic-ref --short -q HEAD)
+
+{
+    for b in main master; do
+        if has_ref "refs/heads/$b" || has_ref "refs/remotes/origin/$b"; then
+            echo "$b"
+        fi
+    done
+    git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads
+    git for-each-ref --sort=-committerdate --format='%(refname:lstrip=3)' refs/remotes/origin
+} | awk -v cur="$current" 'NF && $0 != "HEAD" && $0 != cur && !seen[$0]++'

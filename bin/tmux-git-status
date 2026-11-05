@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Git info for the tmux status bar: branch, ahead/behind, dirty marker.
+# Usage: tmux-git-status <dir> [theme]   (prints nothing outside a git repo)
+cd "${1:-.}" 2>/dev/null || exit 0
+
+case $2 in
+  tokyonight) c_branch='#7dcfff' c_ahead='#9ece6a' c_behind='#ff9e64' c_dirty='#e0af68' c_sep='#3b4261' ;;
+  *)          c_branch='#2aa198' c_ahead='#859900' c_behind='#cb4b16' c_dirty='#b58900' c_sep='#586e75' ;;
+esac
+
+out=$(git status --porcelain=v1 --branch 2>/dev/null) || exit 0
+
+head=${out%%$'\n'*}            # "## main...origin/main [ahead 1, behind 2]"
+branch=${head#\#\# }
+branch=${branch%%...*}
+branch=${branch%% *}
+case $branch in
+  "HEAD"|"") branch=$(git rev-parse --short HEAD 2>/dev/null) ;;  # detached
+  "No"*)     branch=$(git symbolic-ref --short HEAD 2>/dev/null) ;; # no commits yet
+esac
+
+ahead=$(sed -n 's/.*ahead \([0-9]*\).*/\1/p' <<<"$head")
+behind=$(sed -n 's/.*behind \([0-9]*\).*/\1/p' <<<"$head")
+
+s="#[fg=$c_branch] $branch"
+[[ -n $ahead ]]  && s+=" #[fg=$c_ahead]↑$ahead"
+[[ -n $behind ]] && s+=" #[fg=$c_behind]↓$behind"
+[[ $out == *$'\n'* ]] && s+=" #[fg=$c_dirty]●"
+printf '%s #[fg=%s]• ' "$s" "$c_sep"

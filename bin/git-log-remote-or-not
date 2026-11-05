@@ -1,8 +1,9 @@
 #!/bin/bash
+# Preview log for a branch name: the local branch if it exists, otherwise origin's copy.
 
-exists=$(git branch | grep -v HEAD | sed "s/^\s*//" | sed "s/\s*$//" | sed "s/\* //" | grep -q $1 && echo "yes")
-if [[ "$exists" = "yes" ]]; then
-    git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" $1
+if git show-ref --verify --quiet "refs/heads/$1"; then
+    ref="$1"
 else
-    git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" remotes/origin/$1
+    ref="remotes/origin/$1"
 fi
+git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" "$ref"

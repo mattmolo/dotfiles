@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Switch the tmux theme for the current session.
+# Usage: tmux-theme <solarized|tokyonight>
+# "solarized" removes the overrides so the globals from tmux.conf apply again.
+[ -n "$TMUX" ] || exit 0
+
+target=${TMUX_PANE:+-t $TMUX_PANE}
+session=$(tmux display -p $target '#{session_id}') || exit 1
+windows=$(tmux list-windows -t "$session" -F '#{window_id}')
+
+session_opts=(@th_name @th_accent @th_dim @th_text @th_bright @th_cur_fg @th_cur_bg
+              status-style message-style message-command-style mode-style)
+window_opts=(pane-border-style pane-active-border-style)
+
+case $1 in
+  tokyonight)
+    # tokyonight-night palette
+    args=(
+      set -t "$session" @th_name   tokyonight \;
+      set -t "$session" @th_accent "#7aa2f7" \;
+      set -t "$session" @th_dim    "#3b4261" \;
+      set -t "$session" @th_text   "#737aa2" \;
+      set -t "$session" @th_bright "#c0caf5" \;
+      set -t "$session" @th_cur_fg "#c0caf5" \;
+      set -t "$session" @th_cur_bg "#292e42" \;
+      set -t "$session" status-style          "fg=#a9b1d6,bg=#16161e" \;
+      set -t "$session" message-style         "fg=#16161e,bg=#7aa2f7,bold" \;
+      set -t "$session" message-command-style "fg=#16161e,bg=#7dcfff,bold" \;
+      set -t "$session" mode-style            "fg=#c0caf5,bg=#283457" \;
+    )
+    for w in $windows; do
+      args+=(set -w -t "$w" pane-border-style        "fg=#3b4261" \;
+             set -w -t "$w" pane-active-border-style "fg=#7aa2f7" \;)
+    done
+    ;;
+  solarized|"")
+    args=()
+    for o in "${session_opts[@]}"; do args+=(set -u -t "$session" "$o" \;); done
+    for w in $windows; do
+      for o in "${window_opts[@]}"; do args+=(set -wu -t "$w" "$o" \;); done
+    done
+    ;;
+  *) echo "unknown theme: $1" >&2; exit 1 ;;
+esac
+
+tmux "${args[@]}" refresh-client -S
