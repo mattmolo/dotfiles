@@ -46,13 +46,23 @@ done
 #also move vim folder just in case, no need to link
 mv ~/.vim $olddir 2>/dev/null
 
-# make sure a local rc file exists
-touch ~/.local_shellrc
+# make sure the machine-local files exist
+touch ~/.local_shellrc ~/.gitconfig.local
+if [ ! -f ~/.gitconfig.work ]; then
+    touch ~/.gitconfig.work
+    echo -e "$CYAN Created ~/.gitconfig.work: set [user] email there for repos under ~/work $NORMAL"
+fi
 
-#install vim files
-echo -e "$CYAN Installing vim plugins (takes a few seconds) $NORMAL"
-vim +VundleInstall +qall
-clear
+# ask to install vim plugins
+echo -e "$RED Install vim (Vundle) plugins? $NORMAL \c"
+read -p "" -n 1 -r
+printf "\n"
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    echo -e "$CYAN Installing vim plugins (takes a few seconds) $NORMAL"
+    vim +VundleInstall +qall
+    clear
+fi
 
 # ask to set up neovim
 echo -e "$RED Set up neovim? (links ~/.config/nvim and makes it the editor) $NORMAL \c"
