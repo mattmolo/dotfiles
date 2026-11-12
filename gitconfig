@@ -24,17 +24,33 @@
     pushup = push -u origin HEAD
     undo = reset "HEAD~1"
     sw = !git checkout $(git branch -a --format '%(refname:short)' | sed 's~origin/~~' | sort | uniq | fzf)
-    mm = !git pull origin $(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
-    m =  !git checkout main
+    # default branch of origin: local remote HEAD if set, else ask the remote
+    default-branch = "!f() { r=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null) && echo \"${r#origin/}\" || git remote show origin | sed -n '/HEAD branch/s/.*: //p'; }; f"
+    mm = !git pull origin $(git default-branch)
+    m =  !git checkout $(git default-branch)
 [submodule]
     recurse = true
 [init]
     defaultBranch = main
 [push]
     autoSetupRemote = true
-	default = current
+    default = current
 [pull]
     rebase = false
+[fetch]
+    prune = true                    # drop deleted remote branches
+[rerere]
+    enabled = true                  # remember conflict resolutions
+[merge]
+    conflictstyle = zdiff3          # show the common ancestor in conflicts
+[diff]
+    algorithm = histogram           # cleaner diffs
+[branch]
+    sort = -committerdate           # `git branch` shows recent first
+[commit]
+    verbose = true                  # diff shown in the commit editor
+[rebase]
+    autostash = true
 # Work override: any repo under ~/work uses the work identity.
 # ~/.gitconfig.work is machine-local (not in dotfiles), e.g.:
 #   [user]
