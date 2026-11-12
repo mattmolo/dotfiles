@@ -25,6 +25,7 @@ setopt HIST_BEEP                 # Beep when accessing non-existent history.
 setopt nomenucomplete
 
 unsetopt listambiguous           # Don't need to press tab twice to complete
+setopt CLOBBER                   # Allow > to overwrite existing files (prezto directory module disables this)
 
 # Allow zsh to complete commands after 'sudo'
 zstyle ':completion::complete:sudo::' 'user-context' root
