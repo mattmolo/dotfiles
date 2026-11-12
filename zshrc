@@ -37,7 +37,7 @@ fancy-ctrl-z () {
         BUFFER="fg"
         zle accept-line
     else
-        zleush-input
+        zle push-input
         zle clear-screen
     fi
 }
