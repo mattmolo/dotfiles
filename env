@@ -28,8 +28,7 @@ export PATH="$PATH:$HOME/.dotfiles/bin"
 export PATH="$PATH:$HOME/.local/bin"
 
 if [[ $platform == 'Darwin' ]]; then
-    export HOMEBREW_CASK_OPTS="--appdir=/Application"
-    export PATH="$HOME/anaconda2/bin:$PATH"
+    export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 fi
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
