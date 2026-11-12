@@ -26,6 +26,7 @@ setopt nomenucomplete
 
 unsetopt listambiguous           # Don't need to press tab twice to complete
 setopt CLOBBER                   # Allow > to overwrite existing files (prezto directory module disables this)
+PROMPT_EOL_MARK='%F{8}⏎%f'       # Marker shown when output lacks a trailing newline (default is a reverse-video %)
 
 # Allow zsh to complete commands after 'sudo'
 zstyle ':completion::complete:sudo::' 'user-context' root
